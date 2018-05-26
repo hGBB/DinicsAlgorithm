@@ -8,7 +8,7 @@ public final class Shell {
 
     public static void main(String[] args) throws IOException {
         BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
-
+        execute(stdin);
 
 
         File file = new File("input.txt");
@@ -34,7 +34,7 @@ public final class Shell {
             String input = stdin.readLine();
             String[] tokens = input.trim().split("\\s+");
 
-
+        if (checkInput(tokens[0])){
             switch (input.toLowerCase().charAt(0)) {
                 case 'n':
                     break;
@@ -60,13 +60,19 @@ public final class Shell {
                 default:
                     break;
             }
+            }
         }
     }
 
 
     private static boolean checkInput(String string) {
-        return string.hashCode() != 0
-                && string.substring(0, 1).matches("[nfmpdcrshq]]");
+        if (string.hashCode() != 0
+                && string.substring(0, 1).matches("[nfmpdcrshq]]")) {
+            return true;
+        } else {
+            error("Input is not correct. Try 'Help' for a list of viable commands");
+        return false;
+        }
     }
 
         /**
