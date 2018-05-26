@@ -8,7 +8,6 @@ public final class Shell {
 
     public static void main(String[] args) throws IOException {
         BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
-        execute(stdin);
 
 
         File file = new File("input.txt");
@@ -25,6 +24,7 @@ public final class Shell {
             }
             in.close();
         }
+        execute(stdin);
     }
 
     private static void execute(BufferedReader stdin) throws IOException {
