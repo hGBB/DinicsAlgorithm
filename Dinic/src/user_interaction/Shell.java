@@ -1,6 +1,7 @@
 package user_interaction;
 
 import java.io.*;
+import java.util.LinkedList;
 
 public final class Shell {
     public Shell() {
@@ -8,23 +9,9 @@ public final class Shell {
 
     public static void main(String[] args) throws IOException {
         BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
-
-
-        File file = new File("input.txt");
-        if (file.exists() && file.isFile()) {
-            BufferedReader in = new BufferedReader(new FileReader(file));
-            boolean eof = false;
-            while (!eof) {
-                String input = in.readLine();
-                if (input == null) {
-                    eof = true;
-                } else {
-                    System.out.println(input);
-                }
-            }
-            in.close();
-        }
+        createInputStream("input.txt");
         execute(stdin);
+
     }
 
     private static void execute(BufferedReader stdin) throws IOException {
@@ -64,6 +51,46 @@ public final class Shell {
         }
     }
 
+    public static void createInputStream(String filename) throws IOException {
+        int nodes;
+        LinkedList<int[]> edges;
+        LinkedList<String> lines = new LinkedList<>();
+        File file = new File(filename);
+        if (file.exists() && file.isFile()) {
+            BufferedReader in = new BufferedReader(new FileReader(file));
+            boolean eof = false;
+            nodes = Integer.parseInt(in.readLine());
+
+
+            while (!eof) {
+                String input = in.readLine();
+                if (input == null) {
+                    eof = true;
+                } else {
+                    lines.add(input);
+                    System.out.println(input);
+                }
+            }
+            in.close();
+        }
+    }
+
+    /**
+     * Help-method to check if the User input contains
+     * numbers for certain calls.
+     *
+     * @param number A String being checked if it contains solely a number.
+     * @return Weather the String can be cast into an Integer.
+     */
+    private static boolean notANumber(String number) {
+        try {
+            //noinspection ResultOfMethodCallIgnored
+            Integer.parseInt(number);
+        } catch (NumberFormatException e) {
+            return true;
+        }
+        return false;
+    }
 
     private static boolean checkInput(String string) {
         if (string.hashCode() != 0
