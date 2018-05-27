@@ -51,28 +51,48 @@ public final class Shell {
         }
     }
 
-    public static void createInputStream(String filename) throws IOException {
-        int nodes;
-        LinkedList<int[]> edges;
+    private static void createInputStream(String filename) throws IOException {
         LinkedList<String> lines = new LinkedList<>();
         File file = new File(filename);
         if (file.exists() && file.isFile()) {
             BufferedReader in = new BufferedReader(new FileReader(file));
             boolean eof = false;
-            nodes = Integer.parseInt(in.readLine());
-
-
             while (!eof) {
                 String input = in.readLine();
                 if (input == null) {
                     eof = true;
                 } else {
-                    lines.add(input);
+                    lines.add(input.trim());
                     System.out.println(input);
                 }
             }
             in.close();
         }
+    }
+
+
+    private static LinkedList<int[]> convertInputToInt(String[] lines) {
+        LinkedList<int[]> convertedString = new LinkedList<>();
+        for (int i = 0; i < lines.length; i++) {
+            String[] tokens = lines[i].split("\\s+");
+            // First Line = number of Nodes in the net
+            if (i == 0 && tokens.length == 1 && !notANumber(tokens[0])) {
+                int[] firstLineNodeSize = {Integer.parseInt(tokens[0])};
+                convertedString.add(firstLineNodeSize);
+            // every other line: 3 numbers. first: from, second: to, third: capacity.
+            } else if (i != 0 && tokens.length == 3 && !notANumber(tokens[0]) && !notANumber(tokens[1]) && notANumber(tokens[2])) {
+                int[] edge = {Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2])};
+                convertedString.add(edge);
+            } else {
+                error("The Input File does not suit the Program! Please check if it fits the convention" +
+                        "*first line:*" +
+                        "ONE NUMBER " +
+                        "*every following line:*" +
+                        "THE NUMBERS DEVIDED BY A WHITESPACE");
+                return null;
+            }
+        }
+        return convertedString;
     }
 
     /**
