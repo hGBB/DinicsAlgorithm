@@ -1,9 +1,11 @@
 package maxflow;
 
 public class NetImpl implements Net {
+    private Flow flow;
+
     @Override
     public Flow getFlow() {
-        return null;
+        return flow;
     }
 
     @Override
