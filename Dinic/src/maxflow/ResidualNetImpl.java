@@ -4,6 +4,7 @@ public class ResidualNetImpl implements ResidualNet {
     private Node[] nodes;
     private Edge[] edges;
 
+
     /**
      * {@inheritDoc}
      */

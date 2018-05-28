@@ -1,6 +1,6 @@
 package maxflow;
 
-public class NiveauGraphImpl implements NiveauGraph {
+public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
     @Override
     public Integer[] findPath() {
         return new Integer[0];
