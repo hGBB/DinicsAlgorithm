@@ -1,12 +1,34 @@
 package maxflow;
 
+import java.util.LinkedList;
+
 /**
  * {@inheritDoc}
  */
 public class ResidualNetImpl implements ResidualNet {
     private Node[] nodes;
+    private int nodenr;
     private Edge[] edges;
 
+
+    public ResidualNetImpl() {
+
+    }
+
+    public ResidualNetImpl(LinkedList<int[]> convertedInput) {
+        this.nodenr = convertedInput.get(0)[0];
+        this.nodes = new Node[nodenr];
+        for (int i = 0; i < nodenr; i++) {
+            nodes[i] = new Node(i);
+        }
+        for (int i = 1; i < convertedInput.size() - 1; i++) {
+            int[] input = convertedInput.get(i);
+            // arrays start at 0, the nodes at 1 therefore we have to subtract 1 of the position
+            Edge edge = new Edge(input[0] - 1, input[1] - 1, input[2]);
+            nodes[input[0] - 1].addEdge(edge);
+            nodes[input[1] - 1].addEdgeIn(edge);
+        }
+    }
 
     /**
      * {@inheritDoc}
@@ -55,6 +77,7 @@ public class ResidualNetImpl implements ResidualNet {
      */
     @Override
     public boolean isSinkReachableFromSource() {
+
         return false;
     }
 

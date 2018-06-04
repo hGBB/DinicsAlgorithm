@@ -4,7 +4,13 @@ package maxflow;
  * {@inheritDoc}
  */
 public class NetImpl extends ResidualNetImpl implements Net {
-    private Flow flow;
+    private Node[] nodes;
+    private Edge[] edges;
+
+//    private Node source; -> erster node in der Liste
+//    private Node target; -> letzter node in der Liste
+
+
 
 
     /**
@@ -12,7 +18,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     @Override
     public Flow getFlow() {
-        return flow;
+        return null;
     }
 
     /**
@@ -104,6 +110,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
          */
         @Override
         public int getEdgeFlow(int source, int target) {
+
             return 0;
         }
 

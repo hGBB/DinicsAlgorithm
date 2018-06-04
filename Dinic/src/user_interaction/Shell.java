@@ -1,5 +1,8 @@
 package user_interaction;
 
+import maxflow.ResidualNet;
+import maxflow.ResidualNetImpl;
+
 import java.io.*;
 import java.util.LinkedList;
 
@@ -20,10 +23,11 @@ public final class Shell {
             System.out.println("maxflow> ");
             String input = stdin.readLine();
             String[] tokens = input.trim().split("\\s+");
-
+            ResidualNet resNet;
         if (checkInput(tokens[0])) {
             switch (input.toLowerCase().charAt(0)) {
                 case 'n':
+                    resNet = new ResidualNetImpl(convertInputToInt(createInputStream("datastr1.net")));
                     break;
                 case 'f':
                     break;
@@ -51,7 +55,7 @@ public final class Shell {
         }
     }
 
-    private static void createNodeNet(LinkedList<int[]> convertedInput) {
+    private static void createResNet(LinkedList<int[]> convertedInput) {
 
     }
 
@@ -94,7 +98,9 @@ public final class Shell {
                         "ONE NUMBER " +
                         "*every following line:*" +
                         "THE NUMBERS DIVIDED BY A WHITESPACE");
-                return null;
+                convertedString.clear();
+                convertedString.add(new int[]{0});
+                return convertedString;
             }
         }
         return convertedString;
