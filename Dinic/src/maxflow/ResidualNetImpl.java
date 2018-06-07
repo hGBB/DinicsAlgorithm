@@ -68,7 +68,8 @@ public class ResidualNetImpl implements ResidualNet {
     @Override
     public boolean isValidEdge(int source, int target, int capacity) {
         for (Edge e : edges) {
-            if (e.getSource() == source && e.getTarget() == target && capacity >= 0) {
+            if (e.getSource() == source && e.getTarget()
+                    == target && capacity >= 0) {
                 return true;
             }
         }
