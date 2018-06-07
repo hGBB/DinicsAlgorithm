@@ -11,7 +11,8 @@ public final class Shell {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader stdin
+                = new BufferedReader(new InputStreamReader(System.in));
         convertInputToInt(createInputStream("input.txt"));
         execute(stdin);
 
@@ -27,7 +28,9 @@ public final class Shell {
             if (checkInput(tokens[0])) {
                 switch (input.toLowerCase().charAt(0)) {
                     case 'n':
-                        resNet = new ResidualNetImpl(convertInputToInt(createInputStream("datastr1.net")));
+                        resNet = new ResidualNetImpl(
+                                convertInputToInt(
+                                        createInputStream("datastr1.net")));
                         break;
                     case 'f':
                         break;
@@ -59,7 +62,8 @@ public final class Shell {
 
     }
 
-    private static LinkedList<String> createInputStream(String filename) throws IOException {
+    private static LinkedList<String> createInputStream(String filename)
+            throws IOException {
         LinkedList<String> lines = new LinkedList<>();
         File file = new File(filename);
         if (file.exists() && file.isFile()) {
@@ -79,7 +83,8 @@ public final class Shell {
     }
 
 
-    private static LinkedList<int[]> convertInputToInt(LinkedList<String> lines) {
+    private static LinkedList<int[]>
+    convertInputToInt(LinkedList<String> lines) {
         LinkedList<int[]> convertedString = new LinkedList<>();
         for (int i = 0; i < lines.size(); i++) {
             String[] tokens = lines.get(i).split("\\s+");
@@ -87,13 +92,19 @@ public final class Shell {
             if (i == 0 && tokens.length == 1 && !notANumber(tokens[0])) {
                 int[] firstLineNodeSize = {Integer.parseInt(tokens[0])};
                 convertedString.add(firstLineNodeSize);
-                // every other line: 3 numbers. first: from, second: to, third: capacity.
-            } else if (i != 0 && tokens.length == 3 && !notANumber(tokens[0]) && !notANumber(tokens[1]) && !notANumber(tokens[2])) {
-                int[] edge = {Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2])};
+                // every other line: 3 numbers.
+                // first: source, second: target, third: capacity.
+            } else if (i != 0 && tokens.length == 3
+                    && !notANumber(tokens[0]) && !notANumber(tokens[1])
+                    && !notANumber(tokens[2])) {
+                int[] edge = {Integer.parseInt(tokens[0]),
+                        Integer.parseInt(tokens[1]),
+                        Integer.parseInt(tokens[2])};
                 convertedString.add(edge);
             } else {
                 System.out.println(i);
-                error("The Input File does not suit the Program! Please check if it fits the convention" +
+                error("The Input File does not suit the Program! " +
+                        "Please check if it fits the convention" +
                         "*first line:*" +
                         "ONE NUMBER " +
                         "*every following line:*" +
@@ -128,7 +139,8 @@ public final class Shell {
                 && string.substring(0, 1).matches("[nfmpdcrshq]")) {
             return true;
         } else {
-            error("Input is not correct. Try 'Help' for a list of viable commands");
+            error("Input is not correct. Try 'Help'" +
+                    " for a list of viable commands");
             return false;
         }
     }

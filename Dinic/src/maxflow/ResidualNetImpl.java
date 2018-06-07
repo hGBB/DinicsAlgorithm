@@ -24,7 +24,8 @@ public class ResidualNetImpl implements ResidualNet {
         }
         for (int i = 1; i < convertedInput.size() - 1; i++) {
             int[] input = convertedInput.get(i);
-            // arrays start at 0, the nodes at 1 therefore we have to subtract 1 of the position
+            // arrays start at 0, the nodes at 1 therefore
+            // we have to subtract 1 of the position
             Edge edge = new Edge(input[0] - 1, input[1] - 1, input[2]);
             nodes[input[0] - 1].addEdge(edge);
             nodes[input[1] - 1].addEdgeIn(edge);
@@ -39,7 +40,8 @@ public class ResidualNetImpl implements ResidualNet {
         for (Node node : nodes) {
             if (node.getNumber() == source) {
                 for (Edge edge : node.getOutgoingEdges()) {
-                    if (edge.getSource() == source && edge.getTarget() == target) {
+                    if (edge.getSource() == source
+                            && edge.getTarget() == target) {
                         return edge.getCapacity();
                     }
                 }
@@ -78,14 +80,15 @@ public class ResidualNetImpl implements ResidualNet {
      */
     @Override
     public boolean isSinkReachableFromSource() {
-        // parse all nodes starting from the source -> the first node in the array
+        // parse all nodes starting from the source
+        // -> the first node in the array
         return parseAllNodes(nodes[0]);
     }
 
     /**
      * Helper method for isSinkReachableFromSource() parses the Node / Edge net
      *
-     * @param node Starting node to parse through the net in the first iteration the root
+     * @param node Starting node to parse through the net towards sink
      * @return True only if the sink is connected to the source
      */
     private boolean parseAllNodes(Node node) {
