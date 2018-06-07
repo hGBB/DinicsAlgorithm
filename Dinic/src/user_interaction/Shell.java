@@ -24,33 +24,33 @@ public final class Shell {
             String input = stdin.readLine();
             String[] tokens = input.trim().split("\\s+");
             ResidualNet resNet;
-        if (checkInput(tokens[0])) {
-            switch (input.toLowerCase().charAt(0)) {
-                case 'n':
-                    resNet = new ResidualNetImpl(convertInputToInt(createInputStream("datastr1.net")));
-                    break;
-                case 'f':
-                    break;
-                case 'm':
-                    break;
-                case 'p':
-                    break;
-                case 'd':
-                    break;
-                case 'c':
-                    break;
-                case 'r':
-                    break;
-                case 's':
-                    break;
-                case 'h':
-                    break;
-                case 'q':
-                    quit = true;
-                    break;
-                default:
-                    break;
-            }
+            if (checkInput(tokens[0])) {
+                switch (input.toLowerCase().charAt(0)) {
+                    case 'n':
+                        resNet = new ResidualNetImpl(convertInputToInt(createInputStream("datastr1.net")));
+                        break;
+                    case 'f':
+                        break;
+                    case 'm':
+                        break;
+                    case 'p':
+                        break;
+                    case 'd':
+                        break;
+                    case 'c':
+                        break;
+                    case 'r':
+                        break;
+                    case 's':
+                        break;
+                    case 'h':
+                        break;
+                    case 'q':
+                        quit = true;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
@@ -87,7 +87,7 @@ public final class Shell {
             if (i == 0 && tokens.length == 1 && !notANumber(tokens[0])) {
                 int[] firstLineNodeSize = {Integer.parseInt(tokens[0])};
                 convertedString.add(firstLineNodeSize);
-            // every other line: 3 numbers. first: from, second: to, third: capacity.
+                // every other line: 3 numbers. first: from, second: to, third: capacity.
             } else if (i != 0 && tokens.length == 3 && !notANumber(tokens[0]) && !notANumber(tokens[1]) && !notANumber(tokens[2])) {
                 int[] edge = {Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2])};
                 convertedString.add(edge);
@@ -129,16 +129,16 @@ public final class Shell {
             return true;
         } else {
             error("Input is not correct. Try 'Help' for a list of viable commands");
-        return false;
+            return false;
         }
     }
 
-        /**
-         * Help-method to standardize the Error messages printed on the console.
-         *
-         * @param msg A message helping the User to prevent incorrect inputs.
-         */
-        private static void error(String msg) {
-            System.out.println("Error! " + msg);
-        }
+    /**
+     * Help-method to standardize the Error messages printed on the console.
+     *
+     * @param msg A message helping the User to prevent incorrect inputs.
+     */
+    private static void error(String msg) {
+        System.out.println("Error! " + msg);
+    }
 }
