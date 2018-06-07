@@ -80,9 +80,27 @@ public class ResidualNetImpl implements ResidualNet {
      */
     @Override
     public boolean isSinkReachableFromSource() {
+        // parse all nodes starting from the source -> the first node in the array
+        return parseAllNodes(nodes[0]);
+    }
 
+    /**
+     * Helper method for isSinkReachableFromSource() parses the Node / Edge net
+     *
+     * @param node Starting node to parse through the net in the first iteration the root
+     * @return True only if the sink is connected to the source
+     */
+    private boolean parseAllNodes(Node node) {
+        for (Edge e : node.getOutgoingEdges()) {
+            if (e.getTarget() == nodenr) {
+                return true;
+            } else {
+                parseAllNodes(nodes[e.getTarget()]);
+            }
+        }
         return false;
     }
+
 
     /**
      * {@inheritDoc}
