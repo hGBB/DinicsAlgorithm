@@ -7,7 +7,6 @@ import java.util.LinkedList;
  */
 public class ResidualNetImpl implements ResidualNet {
     private Node[] nodes;
-    private int nodenr;
     private Edge[] edges;
 
     public ResidualNetImpl() {}
@@ -15,13 +14,11 @@ public class ResidualNetImpl implements ResidualNet {
     public ResidualNetImpl(Node[] nodes, Edge[] edges) {
         this.nodes = nodes;
         this.edges = edges;
-        this.nodenr = nodes.length;
     }
 
     public ResidualNetImpl(LinkedList<int[]> convertedInput) {
-        this.nodenr = convertedInput.get(0)[0];
-        this.nodes = new Node[nodenr];
-        for (int i = 0; i < nodenr; i++) {
+        this.nodes = new Node[convertedInput.get(0)[0]];
+        for (int i = 0; i < nodes.length; i++) {
             nodes[i] = new Node(i);
         }
         for (int i = 1; i < convertedInput.size() - 1; i++) {
@@ -92,7 +89,7 @@ public class ResidualNetImpl implements ResidualNet {
      */
     private boolean parseAllNodes(Node node) {
         for (Edge e : node.getOutgoingEdges()) {
-            if (e.getTarget() == nodenr) {
+            if (e.getTarget() == nodes.length) {
                 return true;
             } else {
                 parseAllNodes(nodes[e.getTarget()]);
