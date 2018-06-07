@@ -40,7 +40,7 @@ public interface Net extends ResidualNet {
     /**
      * An inner class for network flows - every flow belongs to a net.
      */
-    public interface Flow {
+    interface Flow {
 
         /**
          * Gets the flow of an edge.

@@ -6,7 +6,7 @@ package maxflow;
 public class NetImpl extends ResidualNetImpl implements Net {
     private Node[] nodes;
     private Edge[] edges;
-
+    private Flow flow;
 //    private Node source; -> erster node in der Liste
 //    private Node target; -> letzter node in der Liste
 //    private flow capacity -> ad hoc berechnet
@@ -17,7 +17,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     @Override
     public Flow getFlow() {
-        return null;
+        return flow;
     }
 
     /**
@@ -42,6 +42,11 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     @Override
     public int getEdgeCapacity(int source, int target) {
+        for (Edge e : edges) {
+            if (e.getSource() == source && e.getTarget() == target) {
+                return e.getCapacity();
+            }
+        }
         return 0;
     }
 
@@ -50,7 +55,11 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     @Override
     public void setEdgeCapacity(int source, int target, int capacity) {
-
+        for (Edge e : edges) {
+            if (e.getSource() == source && e.getTarget() == target) {
+                e.setCapacity(capacity);
+            }
+        }
     }
 
     /**
@@ -58,6 +67,12 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     @Override
     public boolean isValidEdge(int source, int target, int capacity) {
+        for (Edge e : edges) {
+            if (e.getSource() == source && e.getTarget() == target &&
+                    e.getCapacity() == capacity) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -74,7 +89,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     @Override
     public int getNumberOfNodes() {
-        return 0;
+        return nodes.length;
     }
 
     /**
@@ -82,7 +97,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     @Override
     public int getSource() {
-        return 0;
+        return nodes[0].getNumber();
     }
 
     /**
@@ -90,7 +105,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     @Override
     public int getSink() {
-        return 0;
+        return nodes[nodes.length - 1].getNumber();
     }
 
     /**
@@ -132,7 +147,11 @@ public class NetImpl extends ResidualNetImpl implements Net {
          */
         @Override
         public void setEdgeFlow(int source, int target, int flow) {
-
+            for (Edge e : edges) {
+                if (e.getSource() == source && e.getTarget() == target) {
+                    e.setFlow(flow);
+                }
+            }
         }
 
         /**

@@ -27,4 +27,8 @@ public class Edge {
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
+
+    public void setFlow(int flow) {
+        this.flow = flow;
+    }
 }
