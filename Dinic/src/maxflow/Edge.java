@@ -3,7 +3,8 @@ package maxflow;
 public class Edge {
     private int source;
     private int target;
-    private int capacity;
+    private int capacity; // the maximum amount which CAN flow through an edge
+    private int flow;     // the amount which IS flowing through an edge
 
     public Edge(int s, int t, int capacity) {
         source = s;

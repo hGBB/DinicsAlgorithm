@@ -10,9 +10,12 @@ public class ResidualNetImpl implements ResidualNet {
     private int nodenr;
     private Edge[] edges;
 
+    public ResidualNetImpl() {}
 
-    public ResidualNetImpl() {
-
+    public ResidualNetImpl(Node[] nodes, Edge[] edges) {
+        this.nodes = nodes;
+        this.edges = edges;
+        this.nodenr = nodes.length;
     }
 
     public ResidualNetImpl(LinkedList<int[]> convertedInput) {

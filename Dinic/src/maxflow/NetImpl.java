@@ -9,8 +9,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
 
 //    private Node source; -> erster node in der Liste
 //    private Node target; -> letzter node in der Liste
-
-
+//    private flow capacity -> ad hoc berechnet
 
 
     /**
@@ -26,7 +25,8 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     @Override
     public ResidualNet createResidualNet() {
-        return null;
+        ResidualNet newResNet = new ResidualNetImpl(nodes, edges);
+        return newResNet;
     }
 
     /**
@@ -98,6 +98,11 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     @Override
     public boolean hasEdge(int source, int target) {
+        for (Edge e : edges) {
+            if (e.getSource() == source && e.getTarget() == target) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -143,7 +148,8 @@ public class NetImpl extends ResidualNetImpl implements Net {
          */
         @Override
         public void clear() {
-
+            nodes = new Node[]{};
+            edges = new Edge[]{};
         }
 
         /**
