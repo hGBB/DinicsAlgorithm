@@ -124,6 +124,14 @@ public class NetImpl extends ResidualNetImpl implements Net {
     /**
      * {@inheritDoc}
      */
+    @Override
+    public String toString() {
+        return "";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public class Flow implements Net.Flow {
         /**
          * {@inheritDoc}
