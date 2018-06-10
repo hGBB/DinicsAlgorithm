@@ -33,6 +33,11 @@ public final class Shell {
                           net = new NetImpl(convertInputToInt(createInputStream("datastr1.net")));
                         break;
                     case 'f':
+                        LinkedList<int[]> test = convertInputToInt(createInputStream("datastr1.flow"));
+                        for (int i = 1; i < test.size(); i++) {
+                            int[] inp = test.get(i);
+                            net.getFlow().setEdgeFlow(inp[0], inp[1], inp[2]);
+                        }
                         break;
                     case 'm':
                         break;
@@ -41,6 +46,7 @@ public final class Shell {
                     case 'd': System.out.println(net);
                         break;
                     case 'c':
+                        System.out.println(net.getFlow());
                         break;
                     case 'r':
                         break;

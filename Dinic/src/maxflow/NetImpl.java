@@ -33,7 +33,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     @Override
     public Flow getFlow() {
-        return flow;
+        return this.flow;
     }
 
     /**
@@ -143,13 +143,23 @@ public class NetImpl extends ResidualNetImpl implements Net {
     public class Flow implements Net.Flow {
         int[][] flowMatrix;
 
+        public Flow() {
+            flowMatrix = new int[adjMatrix.length][adjMatrix.length];
+            for (int i = 0; i < flowMatrix.length; i++) {
+                for (int j = 0; j < flowMatrix.length; j++) {
+                    flowMatrix[i][j] = 0;
+                }
+            }
+        }
+
         /**
          * {@inheritDoc}
          */
         @Override
+
         public int getEdgeFlow(int source, int target) {
             // shift to the left because arrays start at 0
-            return flowMatrix[source - 1][target - 1];
+            return flowMatrix[source][target];
         }
 
         /**
@@ -158,7 +168,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
         @Override
         public void addEdgeFlow(int source, int target, int flowAdd) {
             // shift to the left because arrays start at 0
-            flowMatrix[source - 1][target - 1] += flowAdd;
+            flowMatrix[source][target] += flowAdd;
         }
 
         /**
@@ -166,8 +176,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
          */
         @Override
         public void setEdgeFlow(int source, int target, int flow) {
-            // shift to the left because arrays start at 0
-            flowMatrix[source - 1][target - 1] = flow;
+            flowMatrix[source][target] = flow;
         }
 
         /**
@@ -197,5 +206,22 @@ public class NetImpl extends ResidualNetImpl implements Net {
         public int getTotalFlow() {
             return 0;
         }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < flowMatrix.length; i++) {
+                for (int j = 0; j < flowMatrix.length; j++) {
+                    if (flowMatrix[i][j] != 0) {
+                        sb.append("(").append(i).append(", ").append(j)
+                                .append(") (").append(flowMatrix[i][j])
+                                .append("/").append(adjMatrix[i][j])
+                                .append(")").append("\n");
+                    }
+                }
+            }
+            return sb.toString();
+        }
     }
+
 }
