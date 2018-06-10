@@ -1,5 +1,7 @@
 package user_interaction;
 
+import maxflow.Net;
+import maxflow.NetImpl;
 import maxflow.ResidualNet;
 import maxflow.ResidualNetImpl;
 
@@ -13,30 +15,33 @@ public final class Shell {
     public static void main(String[] args) throws IOException {
         BufferedReader stdin
                 = new BufferedReader(new InputStreamReader(System.in));
-        convertInputToInt(createInputStream("input.txt"));
+        convertInputToInt(createInputStream("datastr1.net"));
         execute(stdin);
 
     }
 
     private static void execute(BufferedReader stdin) throws IOException {
         boolean quit = false;
+        Net net = null;
+        ResidualNet resNet = null;
         while (!quit) {
             System.out.println("maxflow> ");
             String input = stdin.readLine();
             String[] tokens = input.trim().split("\\s+");
-            ResidualNet resNet;
             if (checkInput(tokens[0])) {
                 switch (input.toLowerCase().charAt(0)) {
                     case 'n':
-                        resNet = new ResidualNetImpl(
-                                convertInputToInt(
-                                        createInputStream("datastr1.net")));
+                          net = new NetImpl(convertInputToInt(createInputStream("datastr1.net")));
+                   //     resNet = new ResidualNetImpl(
+                   //             convertInputToInt(
+                   //                     createInputStream("datastr1.net")));
                         break;
                     case 'f':
                         break;
                     case 'm':
                         break;
                     case 'p':
+                        System.out.println(net);
                         break;
                     case 'd':
                         break;

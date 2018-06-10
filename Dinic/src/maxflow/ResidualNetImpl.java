@@ -16,7 +16,7 @@ public class ResidualNetImpl implements ResidualNet {
         this.nodes = nodes;
         this.edges = edges;
     }
-
+/*
     public ResidualNetImpl(LinkedList<int[]> convertedInput) {
         this.nodes = new Node[convertedInput.get(0)[0]];
         for (int i = 0; i < nodes.length; i++) {
@@ -31,7 +31,7 @@ public class ResidualNetImpl implements ResidualNet {
             nodes[input[1] - 1].addEdgeIn(edge);
         }
     }
-
+*/
     /**
      * {@inheritDoc}
      */

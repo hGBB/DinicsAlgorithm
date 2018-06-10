@@ -1,15 +1,30 @@
 package maxflow;
 
+import java.util.LinkedList;
+
 /**
  * {@inheritDoc}
  */
 public class NetImpl extends ResidualNetImpl implements Net {
     private Node[] nodes;
     private Edge[] edges;
+    private int[][] adjMatrix;
     private Flow flow;
-//    private Node source; -> erster node in der Liste
-//    private Node target; -> letzter node in der Liste
-//    private flow capacity -> ad hoc berechnet
+
+    public NetImpl(LinkedList<int[]> input) {
+        int matrixSize = input.get(0)[0];
+        this.adjMatrix = new int[matrixSize][matrixSize];
+        for (int i = 0; i < adjMatrix.length; i++) {
+            for (int j = 0; j < adjMatrix.length; j++) {
+                adjMatrix[i][j] = 0;
+            }
+        }
+        for (int i = 1; i < input.size(); i++) {
+            int [] currentLine = input.get(i);
+            this.adjMatrix[currentLine[0] - 1][currentLine[1] - 1] = currentLine[2];
+        }
+    }
+
 
 
     /**
@@ -126,7 +141,16 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     @Override
     public String toString() {
-        return "";
+        StringBuilder sb = new StringBuilder();
+        for (int[] anAdjMatrix : adjMatrix) {
+            for (int j = 0; j < adjMatrix.length; j++) {
+                sb.append(anAdjMatrix[j]);
+                sb.append(" ");
+            }
+            sb.append("\n");
+        }
+
+        return sb.toString();
     }
 
     /**
