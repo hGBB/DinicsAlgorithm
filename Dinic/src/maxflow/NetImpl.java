@@ -6,22 +6,23 @@ import java.util.LinkedList;
  * {@inheritDoc}
  */
 public class NetImpl extends ResidualNetImpl implements Net {
-    private Node[] nodes;
-    private Edge[] edges;
     private int[][] adjMatrix;
     private Flow flow;
 
     public NetImpl(LinkedList<int[]> input) {
+        // create matrix size is number given in the input's first line
         int matrixSize = input.get(0)[0];
         this.adjMatrix = new int[matrixSize][matrixSize];
+        this.flow = new Flow();
         for (int i = 0; i < adjMatrix.length; i++) {
             for (int j = 0; j < adjMatrix.length; j++) {
                 adjMatrix[i][j] = 0;
             }
         }
         for (int i = 1; i < input.size(); i++) {
-            int [] currentLine = input.get(i);
-            this.adjMatrix[currentLine[0] - 1][currentLine[1] - 1] = currentLine[2];
+            // fill the matrix
+            int[] currentLine = input.get(i);
+            this.adjMatrix[currentLine[0]][currentLine[1]] = currentLine[2];
         }
     }
 
@@ -40,8 +41,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     @Override
     public ResidualNet createResidualNet() {
-        ResidualNet newResNet = new ResidualNetImpl(nodes, edges);
-        return newResNet;
+        return null;
     }
 
     /**
@@ -57,12 +57,9 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     @Override
     public int getEdgeCapacity(int source, int target) {
-        for (Edge e : edges) {
-            if (e.getSource() == source && e.getTarget() == target) {
-                return e.getCapacity();
-            }
-        }
-        return 0;
+        // shift to the left because arrays start at 0
+        return adjMatrix[source - 1][target - 1];
+
     }
 
     /**
@@ -70,11 +67,8 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     @Override
     public void setEdgeCapacity(int source, int target, int capacity) {
-        for (Edge e : edges) {
-            if (e.getSource() == source && e.getTarget() == target) {
-                e.setCapacity(capacity);
-            }
-        }
+        // shift to the left because arrays start at 0
+        adjMatrix[source - 1][target - 1] = capacity;
     }
 
     /**
@@ -82,13 +76,8 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     @Override
     public boolean isValidEdge(int source, int target, int capacity) {
-        for (Edge e : edges) {
-            if (e.getSource() == source && e.getTarget() == target &&
-                    e.getCapacity() == capacity) {
-                return true;
-            }
-        }
-        return false;
+        // shift to the left because arrays start at 0
+        return adjMatrix[source - 1][target - 1] == capacity;
     }
 
     /**
@@ -104,7 +93,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     @Override
     public int getNumberOfNodes() {
-        return nodes.length;
+        return adjMatrix.length;
     }
 
     /**
@@ -112,7 +101,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     @Override
     public int getSource() {
-        return nodes[0].getNumber();
+        return 0;
     }
 
     /**
@@ -120,7 +109,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     @Override
     public int getSink() {
-        return nodes[nodes.length - 1].getNumber();
+        return adjMatrix.length;
     }
 
     /**
@@ -128,12 +117,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     @Override
     public boolean hasEdge(int source, int target) {
-        for (Edge e : edges) {
-            if (e.getSource() == source && e.getTarget() == target) {
-                return true;
-            }
-        }
-        return false;
+        return adjMatrix.length < source && adjMatrix.length < target;
     }
 
     /**
@@ -157,13 +141,15 @@ public class NetImpl extends ResidualNetImpl implements Net {
      * {@inheritDoc}
      */
     public class Flow implements Net.Flow {
+        int[][] flowMatrix;
+
         /**
          * {@inheritDoc}
          */
         @Override
         public int getEdgeFlow(int source, int target) {
-
-            return 0;
+            // shift to the left because arrays start at 0
+            return flowMatrix[source - 1][target - 1];
         }
 
         /**
@@ -171,7 +157,8 @@ public class NetImpl extends ResidualNetImpl implements Net {
          */
         @Override
         public void addEdgeFlow(int source, int target, int flowAdd) {
-
+            // shift to the left because arrays start at 0
+            flowMatrix[source - 1][target - 1] += flowAdd;
         }
 
         /**
@@ -179,11 +166,8 @@ public class NetImpl extends ResidualNetImpl implements Net {
          */
         @Override
         public void setEdgeFlow(int source, int target, int flow) {
-            for (Edge e : edges) {
-                if (e.getSource() == source && e.getTarget() == target) {
-                    e.setFlow(flow);
-                }
-            }
+            // shift to the left because arrays start at 0
+            flowMatrix[source - 1][target - 1] = flow;
         }
 
         /**
@@ -199,8 +183,11 @@ public class NetImpl extends ResidualNetImpl implements Net {
          */
         @Override
         public void clear() {
-            nodes = new Node[]{};
-            edges = new Edge[]{};
+            for (int i = 0; i < flowMatrix.length; i++) {
+                for (int j = 0; j < flowMatrix.length; j++) {
+                    flowMatrix[i][j] = 0;
+                }
+            }
         }
 
         /**

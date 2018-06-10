@@ -3,7 +3,6 @@ package user_interaction;
 import maxflow.Net;
 import maxflow.NetImpl;
 import maxflow.ResidualNet;
-import maxflow.ResidualNetImpl;
 
 import java.io.*;
 import java.util.LinkedList;
@@ -32,18 +31,14 @@ public final class Shell {
                 switch (input.toLowerCase().charAt(0)) {
                     case 'n':
                           net = new NetImpl(convertInputToInt(createInputStream("datastr1.net")));
-                   //     resNet = new ResidualNetImpl(
-                   //             convertInputToInt(
-                   //                     createInputStream("datastr1.net")));
                         break;
                     case 'f':
                         break;
                     case 'm':
                         break;
                     case 'p':
-                        System.out.println(net);
                         break;
-                    case 'd':
+                    case 'd': System.out.println(net);
                         break;
                     case 'c':
                         break;
@@ -94,16 +89,18 @@ public final class Shell {
         for (int i = 0; i < lines.size(); i++) {
             String[] tokens = lines.get(i).split("\\s+");
             // First Line = number of Nodes in the net
-            if (i == 0 && tokens.length == 1 && !notANumber(tokens[0])) {
+            if (i == 0 && tokens.length == 1 && isANumber(tokens[0])) {
                 int[] firstLineNodeSize = {Integer.parseInt(tokens[0])};
                 convertedString.add(firstLineNodeSize);
                 // every other line: 3 numbers.
                 // first: source, second: target, third: capacity.
             } else if (i != 0 && tokens.length == 3
-                    && !notANumber(tokens[0]) && !notANumber(tokens[1])
-                    && !notANumber(tokens[2])) {
-                int[] edge = {Integer.parseInt(tokens[0]),
-                        Integer.parseInt(tokens[1]),
+                    && isANumber(tokens[0]) && isANumber(tokens[1])
+                    && isANumber(tokens[2])) {
+                // the array in which the data is stored starts at 1 therefore
+                // we need to move all sources / targets 1 to the left
+                int[] edge = {Integer.parseInt(tokens[0]) - 1,
+                        Integer.parseInt(tokens[1]) - 1,
                         Integer.parseInt(tokens[2])};
                 convertedString.add(edge);
             } else {
@@ -129,14 +126,14 @@ public final class Shell {
      * @param number A String being checked if it contains solely a number.
      * @return Weather the String can be cast into an Integer.
      */
-    private static boolean notANumber(String number) {
+    private static boolean isANumber(String number) {
         try {
             //noinspection ResultOfMethodCallIgnored
             Integer.parseInt(number);
         } catch (NumberFormatException e) {
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     private static boolean checkInput(String string) {
