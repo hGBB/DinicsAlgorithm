@@ -213,7 +213,8 @@ public class NetImpl extends ResidualNetImpl implements Net {
             for (int i = 0; i < flowMatrix.length; i++) {
                 for (int j = 0; j < flowMatrix.length; j++) {
                     if (flowMatrix[i][j] != 0) {
-                        sb.append("(").append(i).append(", ").append(j)
+                        // the array starts at 0 therefore we need a right shift of the position of the edges
+                        sb.append("(").append(i + 1).append(", ").append(j + 1)
                                 .append(") (").append(flowMatrix[i][j])
                                 .append("/").append(adjMatrix[i][j])
                                 .append(")").append("\n");
