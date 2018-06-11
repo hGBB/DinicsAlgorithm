@@ -41,7 +41,8 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     @Override
     public ResidualNet createResidualNet() {
-        return null;
+
+        return new ResidualNetImpl(adjMatrix, flow.flowMatrix);
     }
 
     /**
@@ -85,10 +86,20 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     @Override
     public boolean isSinkReachableFromSource() {
-       return    reachableSink(0);
+       return reachableSink(0);
        }
 
     private boolean reachableSink(int startingNode) {
+    /*    for (int i = adjMatrix.length - 1; i >= 0; i--) {
+            if (adjMatrix[startingNode][0] != 0) {
+                return true;
+            } else if (adjMatrix[startingNode][i] != 0) {
+                return reachableSink(i);
+            }
+        }
+*/
+
+    //    System.out.println(startingNode);
             for (int i = 0; i < adjMatrix.length; i++) {
                 if (adjMatrix[startingNode][adjMatrix.length - 1] != 0) {
                     return true;
@@ -96,6 +107,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
                     return reachableSink(i);
                 }
             }
+
         return false;
     }
 
