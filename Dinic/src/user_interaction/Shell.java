@@ -14,7 +14,6 @@ public final class Shell {
     public static void main(String[] args) throws IOException {
         BufferedReader stdin
                 = new BufferedReader(new InputStreamReader(System.in));
-        convertInputToInt(createInputStream("datastr1.net"));
         execute(stdin);
 
     }
@@ -30,12 +29,15 @@ public final class Shell {
             if (checkInput(tokens)) {
                 switch (input.toLowerCase().charAt(0)) {
                     case 'n':
-                        net = new NetImpl(convertInputToInt(createInputStream("datastr1.net")));
+                        LinkedList<String> inputFile = createInputStream(tokens[1]);
+                        if (inputFile.size() != 0) {
+                            net = new NetImpl(convertInputToInt(inputFile));
+                        }
                         break;
                     case 'f':
-                        LinkedList<int[]> test = convertInputToInt(createInputStream("datastr1.flow"));
-                        for (int i = 1; i < test.size(); i++) {
-                            int[] inp = test.get(i);
+                        LinkedList<int[]> flowInputFile = convertInputToInt(createInputStream(tokens[1]));
+                        for (int i = 1; i < flowInputFile.size(); i++) {
+                            int[] inp = flowInputFile.get(i);
                             net.getFlow().setEdgeFlow(inp[0], inp[1], inp[2]);
                         }
                         break;
@@ -52,6 +54,7 @@ public final class Shell {
                     case 'r':
                         break;
                     case 's':
+                        System.out.println(net.isSinkReachableFromSource());
                         break;
                     case 'h':
                         break;
@@ -85,10 +88,11 @@ public final class Shell {
                 }
             }
             in.close();
+        } else {
+            error("The specified file does not exist!");
         }
         return lines;
     }
-
 
     private static LinkedList<int[]>
     convertInputToInt(LinkedList<String> lines) {
@@ -111,7 +115,6 @@ public final class Shell {
                         Integer.parseInt(tokens[2])};
                 convertedString.add(edge);
             } else {
-                System.out.println(i);
                 error("The Input File does not suit the Program! " +
                         "Please check if it fits the convention" +
                         "*first line:*" +
@@ -123,7 +126,7 @@ public final class Shell {
                 return convertedString;
             }
         }
-        return convertedString;
+            return convertedString;
     }
 
     /**
