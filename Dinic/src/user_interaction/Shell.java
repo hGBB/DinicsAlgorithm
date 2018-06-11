@@ -8,7 +8,7 @@ import java.io.*;
 import java.util.LinkedList;
 
 public final class Shell {
-    public Shell() {
+    private Shell() {
     }
 
     public static void main(String[] args) throws IOException {
@@ -23,7 +23,7 @@ public final class Shell {
         Net net = null;
         ResidualNet resNet = null;
         while (!quit) {
-            System.out.print("maxflow> ");
+            System.out.print("dinic> ");
             String input = stdin.readLine();
             String[] tokens = input.trim().split("\\s+");
             if (checkInput(tokens)) {
@@ -53,9 +53,11 @@ public final class Shell {
                         break;
                     case 'r':
                         resNet = net.createResidualNet();
+                        System.out.println("Residual net is:");
                         System.out.println(resNet);
                         break;
                     case 's':
+
                         System.out.println(net.isSinkReachableFromSource());
                         break;
                     case 'h':
@@ -70,9 +72,6 @@ public final class Shell {
         }
     }
 
-    private static void createResNet(LinkedList<int[]> convertedInput) {
-
-    }
 
     private static LinkedList<String> createInputStream(String filename)
             throws IOException {

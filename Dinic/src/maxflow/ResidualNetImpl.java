@@ -6,10 +6,18 @@ package maxflow;
 public class ResidualNetImpl implements ResidualNet {
     private int[][] adjMatrix;
 
-
+    /**
+     * Standard constructor
+     */
     public ResidualNetImpl() {}
 
+    /**
+     * Constructor for a ResidualNet
+     * @param net The ResidualNet's net
+     * @param flow The ResidualNet's flow
+     */
     public ResidualNetImpl(int[][] net, int[][] flow) {
+        // TODO reverse this! from target to source
         adjMatrix = new int[net.length][net.length];
         for (int i = 0; i < net.length; i++) {
             for (int j = 0; j < net.length; j++) {
@@ -125,7 +133,9 @@ public class ResidualNetImpl implements ResidualNet {
         for (int[] anAdjMatrix : adjMatrix) {
             for (int j = 0; j < adjMatrix.length; j++) {
                 sb.append(anAdjMatrix[j]);
-                sb.append(" ");
+                if (j < adjMatrix.length - 1) {
+                    sb.append(" ");
+                }
             }
             sb.append("\n");
         }

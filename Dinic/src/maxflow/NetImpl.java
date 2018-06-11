@@ -65,7 +65,9 @@ public class NetImpl extends ResidualNetImpl implements Net {
         for (int[] anAdjMatrix : adjMatrix) {
             for (int j = 0; j < adjMatrix.length; j++) {
                 sb.append(anAdjMatrix[j]);
-                sb.append(" ");
+                if (j < adjMatrix.length - 1) {
+                    sb.append(" ");
+                }
             }
             sb.append("\n");
         }
@@ -77,7 +79,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
      * {@inheritDoc}
      */
     public class Flow implements Net.Flow {
-        int[][] flowMatrix;
+        private int[][] flowMatrix;
 
         public Flow() {
             flowMatrix = new int[adjMatrix.length][adjMatrix.length];
