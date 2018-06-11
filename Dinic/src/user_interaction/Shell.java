@@ -24,13 +24,13 @@ public final class Shell {
         Net net = null;
         ResidualNet resNet = null;
         while (!quit) {
-            System.out.println("maxflow> ");
+            System.out.print("maxflow> ");
             String input = stdin.readLine();
             String[] tokens = input.trim().split("\\s+");
-            if (checkInput(tokens[0])) {
+            if (checkInput(tokens)) {
                 switch (input.toLowerCase().charAt(0)) {
                     case 'n':
-                          net = new NetImpl(convertInputToInt(createInputStream("datastr1.net")));
+                        net = new NetImpl(convertInputToInt(createInputStream("datastr1.net")));
                         break;
                     case 'f':
                         LinkedList<int[]> test = convertInputToInt(createInputStream("datastr1.flow"));
@@ -43,7 +43,8 @@ public final class Shell {
                         break;
                     case 'p':
                         break;
-                    case 'd': System.out.println(net);
+                    case 'd':
+                        System.out.println(net);
                         break;
                     case 'c':
                         System.out.println(net.getFlow());
@@ -142,15 +143,20 @@ public final class Shell {
         return true;
     }
 
-    private static boolean checkInput(String string) {
-        if (string.hashCode() != 0
-                && string.substring(0, 1).matches("[nfmpdcrshq]")) {
-            return true;
-        } else {
-            error("Input is not correct. Try 'Help'" +
-                    " for a list of viable commands");
-            return false;
+    private static boolean checkInput(String[] token) {
+        if (token[0].hashCode() != 0) {
+            if (token[0].substring(0, 1).matches("[mpdcrshq]")
+                    && token.length == 1) {
+                return true;
+            } else if (token[0].substring(0, 1).matches("[nf]")
+                    && token.length == 2) {
+                return true;
+            }
         }
+        error("Input is not correct. Try 'Help'" +
+                " for a list of viable commands");
+        return false;
+
     }
 
     /**
