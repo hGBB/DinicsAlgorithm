@@ -53,33 +53,6 @@ public class NetImpl extends ResidualNetImpl implements Net {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getEdgeCapacity(int source, int target) {
-        // shift to the left because arrays start at 0
-        return adjMatrix[source - 1][target - 1];
-
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setEdgeCapacity(int source, int target, int capacity) {
-        // shift to the left because arrays start at 0
-        adjMatrix[source - 1][target - 1] = capacity;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isValidEdge(int source, int target, int capacity) {
-        // shift to the left because arrays start at 0
-        return adjMatrix[source - 1][target - 1] == capacity;
-    }
 
     /**
      * {@inheritDoc}
@@ -109,39 +82,6 @@ public class NetImpl extends ResidualNetImpl implements Net {
             }
 
         return false;
-    }
-
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getNumberOfNodes() {
-        return adjMatrix.length;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getSource() {
-        return 0;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getSink() {
-        return adjMatrix.length;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean hasEdge(int source, int target) {
-        return adjMatrix.length < source && adjMatrix.length < target;
     }
 
     /**
