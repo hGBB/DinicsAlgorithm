@@ -95,8 +95,13 @@ public class NetImpl extends ResidualNetImpl implements Net {
          */
         @Override
         public void setEdgeFlow(int source, int target, int flow) {
-            adjMatrix[source][target].setFlow(flow);
-            flowMatrix[source][target] = flow;
+            if (adjMatrix[source][target].getCapacity() >= flow) {
+                adjMatrix[source][target].setFlow(flow);
+                flowMatrix[source][target] = flow;
+            // Todo move this error to shell!
+            } else {
+                System.out.println("Error! ladida");
+            }
 
         }
 
