@@ -84,11 +84,9 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     public class Flow implements Net.Flow {
         private int[][] flowMatrix;
-        private LinkedList<Edge> edges;
 
         public Flow() {
             flowMatrix = new int[adjMatrix.length][adjMatrix.length];
-            edges = new LinkedList<>();
             for (int i = 0; i < flowMatrix.length; i++) {
                 for (int j = 0; j < flowMatrix.length; j++) {
                     flowMatrix[i][j] = 0;
@@ -120,6 +118,11 @@ public class NetImpl extends ResidualNetImpl implements Net {
          */
         @Override
         public void setEdgeFlow(int source, int target, int flow) {
+            for (Edge e : edges) {
+                if (e.getSource() == source && e.getTarget() == target) {
+                    e.setFlow(flow);
+                }
+            }
             flowMatrix[source][target] = flow;
 
         }
@@ -130,12 +133,19 @@ public class NetImpl extends ResidualNetImpl implements Net {
         @Override
         public boolean isValidFlow() {
             for (int i = 0; i < adjMatrix.length; i++) {
-                // 1. kirchhoffs law: nothing flows into the source ( -> first column always 0)
+                // nothing flows into the source ( -> first column always 0)
                 // nothing flows out of the sink ( -> last row always 0)
                 if (adjMatrix[i][0] > 0 || adjMatrix[adjMatrix.length - 1][i] > 0) {
                     return false;
                 }
             }
+            // it is not possible for and edge to have a higher flow than capacity
+            for (Edge e : edges) {
+                if (e.getFlow() > e.getCapacity()) {
+                    return false;
+                }
+            }
+            // TODO kirchhoffsches gesetz!!!
             return true;
         }
 
@@ -144,6 +154,9 @@ public class NetImpl extends ResidualNetImpl implements Net {
          */
         @Override
         public void clear() {
+            for (Edge e : edges) {
+                e.setFlow(0);
+            }
             for (int i = 0; i < flowMatrix.length; i++) {
                 for (int j = 0; j < flowMatrix.length; j++) {
                     flowMatrix[i][j] = 0;
