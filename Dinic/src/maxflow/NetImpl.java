@@ -7,28 +7,31 @@ import java.util.LinkedList;
  * {@inheritDoc}
  */
 public class NetImpl extends ResidualNetImpl implements Net {
-    private int[][] adjMatrix;
+    private Edge[][] adjMatrix;
     private Flow flow;
     private LinkedList<Edge> edges;
 
     public NetImpl(LinkedList<int[]> input) {
         // create matrix with size given in the input's first line
         int matrixSize = input.get(0)[0];
-        this.adjMatrix = new int[matrixSize][matrixSize];
+        this.adjMatrix = new Edge[matrixSize][matrixSize];
         // create new list of edges
         edges = new LinkedList<>();
         this.flow = new Flow();
         for (int i = 0; i < adjMatrix.length; i++) {
             for (int j = 0; j < adjMatrix.length; j++) {
                 // add value to matrix
-                adjMatrix[i][j] = 0;
+                adjMatrix[i][j] = null;
 
             }
         }
         for (int i = 1; i < input.size(); i++) {
             // fill the matrix with the values of the following lines
             int[] currentLine = input.get(i);
-            this.adjMatrix[currentLine[0]][currentLine[1]] = currentLine[2];
+            int source = currentLine[0];
+            int target = currentLine[1];
+            int capacity = currentLine[2];
+            this.adjMatrix[currentLine[0]][currentLine[1]] = new Edge(source, target, capacity);
             // create new edge
             edges.add(new Edge(currentLine[0], currentLine[1], currentLine[2]));
         }
@@ -65,9 +68,13 @@ public class NetImpl extends ResidualNetImpl implements Net {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int[] anAdjMatrix : adjMatrix) {
+        for (Edge[] anAdjMatrix : adjMatrix) {
             for (int j = 0; j < adjMatrix.length; j++) {
-                sb.append(anAdjMatrix[j]);
+                if (anAdjMatrix[j] != null) {
+                    sb.append(anAdjMatrix[j].getCapacity());
+                } else {
+                    sb.append("0");
+                }
                 if (j < adjMatrix.length - 1) {
                     sb.append(" ");
                 }
@@ -135,12 +142,13 @@ public class NetImpl extends ResidualNetImpl implements Net {
             for (int i = 0; i < adjMatrix.length; i++) {
                 // nothing flows into the source ( -> first column always 0)
                 // nothing flows out of the sink ( -> last row always 0)
-                if (adjMatrix[i][0] > 0 || adjMatrix[adjMatrix.length - 1][i] > 0) {
+                if (adjMatrix[i][0].getFlow() > 0 || adjMatrix[adjMatrix.length - 1][i].getFlow() > 0) {
                     return false;
                 }
             }
             // it is not possible for and edge to have a higher flow than capacity
-            for (Edge e : edges) {
+            for (Edge[] edgeArray : adjMatrix)
+            for (Edge e : edgeArray) {
                 if (e.getFlow() > e.getCapacity()) {
                     return false;
                 }
