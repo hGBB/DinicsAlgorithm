@@ -36,6 +36,7 @@ public final class Shell {
                         break;
                     case 'f':
                         LinkedList<int[]> flowInputFile = convertInputToInt(createInputStream(tokens[1]));
+                        net.getFlow().clear();
                         for (int i = 1; i < flowInputFile.size(); i++) {
                             int[] inp = flowInputFile.get(i);
                             net.getFlow().setEdgeFlow(inp[0], inp[1], inp[2]);
@@ -50,7 +51,7 @@ public final class Shell {
                         break;
                     case 'c':
                         System.out.println(net.getFlow());
-                        System.out.println(net.getFlow().isValidFlow());
+            //            System.out.println(net.getFlow().isValidFlow());
                         break;
                     case 'r':
                         resNet = net.createResidualNet();

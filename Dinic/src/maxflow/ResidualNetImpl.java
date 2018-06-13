@@ -1,14 +1,10 @@
 package maxflow;
 
-import java.util.LinkedList;
-
 /**
  * {@inheritDoc}
  */
 public class ResidualNetImpl implements ResidualNet {
     protected Edge[][] adjMatrix;
-    private Edge[][] backEdge;
-    private Edge[][] edge;
 
     /**
      * Standard constructor
@@ -70,7 +66,6 @@ public class ResidualNetImpl implements ResidualNet {
     }
 
     private boolean reachableSink(int startingNode) {
-
         return false;
     }
 

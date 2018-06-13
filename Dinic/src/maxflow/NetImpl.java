@@ -129,9 +129,11 @@ public class NetImpl extends ResidualNetImpl implements Net {
          */
         @Override
         public void clear() {
-            for (int i = 0; i < flowMatrix.length; i++) {
-                for (int j = 0; j < flowMatrix.length; j++) {
-                    flowMatrix[i][j] = 0;
+
+            for (int i = 0; i < adjMatrix.length; i++) {
+                for (int j = 0; j < adjMatrix.length; j++) {
+                    if (adjMatrix[i][j] != null)
+                    adjMatrix[i][j].setFlow(0);
                 }
             }
         }
@@ -154,7 +156,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
                         sb.append("(").append(e.getSource() + 1).append(", ").append(e.getTarget() + 1)
                                 .append(") (").append(e.getFlow())
                                 .append("/").append(e.getCapacity())
-                                .append(")").append("\n ");
+                                .append(")").append("\n");
                     }
                 }
             }
