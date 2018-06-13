@@ -1,5 +1,6 @@
 package maxflow;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 /**
@@ -10,7 +11,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
     private Flow flow;
 
     public NetImpl(LinkedList<int[]> input) {
-        // create matrix size is number given in the input's first line
+        // create matrix with size given in the input's first line
         int matrixSize = input.get(0)[0];
         this.adjMatrix = new int[matrixSize][matrixSize];
         this.flow = new Flow();
@@ -20,13 +21,11 @@ public class NetImpl extends ResidualNetImpl implements Net {
             }
         }
         for (int i = 1; i < input.size(); i++) {
-            // fill the matrix
+            // fill the matrix with the values of the following lines
             int[] currentLine = input.get(i);
             this.adjMatrix[currentLine[0]][currentLine[1]] = currentLine[2];
         }
     }
-
-
 
     /**
      * {@inheritDoc}
@@ -53,9 +52,6 @@ public class NetImpl extends ResidualNetImpl implements Net {
         return null;
     }
 
-
-
-
     /**
      * {@inheritDoc}
      */
@@ -69,6 +65,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
                     sb.append(" ");
                 }
             }
+            if (!Arrays.equals(anAdjMatrix, adjMatrix[anAdjMatrix.length - 1]))
             sb.append("\n");
         }
 
@@ -155,7 +152,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
                         sb.append("(").append(i + 1).append(", ").append(j + 1)
                                 .append(") (").append(flowMatrix[i][j])
                                 .append("/").append(adjMatrix[i][j])
-                                .append(")").append("\n");
+                                .append(")").append("\n ");
                     }
                 }
             }
