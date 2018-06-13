@@ -1,30 +1,32 @@
 package maxflow;
 
+import java.util.LinkedList;
+
 /**
  * {@inheritDoc}
  */
 public class ResidualNetImpl implements ResidualNet {
     private int[][] adjMatrix;
+    private LinkedList<Edge> edges;
+    private LinkedList<Edge> backEdges;
 
     /**
      * Standard constructor
      */
     public ResidualNetImpl() {}
 
-    /**
-     * Constructor for a ResidualNet
-     * @param net The ResidualNet's net
-     * @param flow The ResidualNet's flow
-     */
-    public ResidualNetImpl(int[][] net, int[][] flow) {
-        // TODO reverse this! from target to source
-        adjMatrix = new int[net.length][net.length];
-        for (int i = 0; i < net.length; i++) {
-            for (int j = 0; j < net.length; j++) {
-                adjMatrix[i][j] = net[i][j] - flow[i][j];
+    public ResidualNetImpl(LinkedList<Edge> edges) {
+        for (Edge e : edges) {
+            if (e.getFlow() > 0) {
+                backEdges.add(new Edge(e.getTarget(), e.getSource(), e.getCapacity()));
+            }
+            int restCapacity = e.getCapacity() - e.getFlow();
+            if (restCapacity > 0) {
+                edges.add(new Edge(e.getSource(), e.getTarget(), restCapacity));
             }
         }
-    }
+
+ }
 
     /**
      * {@inheritDoc}

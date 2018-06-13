@@ -9,21 +9,28 @@ import java.util.LinkedList;
 public class NetImpl extends ResidualNetImpl implements Net {
     private int[][] adjMatrix;
     private Flow flow;
+    private LinkedList<Edge> edges;
 
     public NetImpl(LinkedList<int[]> input) {
         // create matrix with size given in the input's first line
         int matrixSize = input.get(0)[0];
         this.adjMatrix = new int[matrixSize][matrixSize];
+        // create new list of edges
+        edges = new LinkedList<>();
         this.flow = new Flow();
         for (int i = 0; i < adjMatrix.length; i++) {
             for (int j = 0; j < adjMatrix.length; j++) {
+                // add value to matrix
                 adjMatrix[i][j] = 0;
+
             }
         }
         for (int i = 1; i < input.size(); i++) {
             // fill the matrix with the values of the following lines
             int[] currentLine = input.get(i);
             this.adjMatrix[currentLine[0]][currentLine[1]] = currentLine[2];
+            // create new edge
+            edges.add(new Edge(currentLine[0], currentLine[1], currentLine[2]));
         }
     }
 
@@ -41,7 +48,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
     @Override
     public ResidualNet createResidualNet() {
 
-        return new ResidualNetImpl(adjMatrix, flow.flowMatrix);
+        return new ResidualNetImpl(edges);
     }
 
     /**
@@ -77,9 +84,11 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     public class Flow implements Net.Flow {
         private int[][] flowMatrix;
+        private LinkedList<Edge> edges;
 
         public Flow() {
             flowMatrix = new int[adjMatrix.length][adjMatrix.length];
+            edges = new LinkedList<>();
             for (int i = 0; i < flowMatrix.length; i++) {
                 for (int j = 0; j < flowMatrix.length; j++) {
                     flowMatrix[i][j] = 0;
@@ -112,6 +121,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
         @Override
         public void setEdgeFlow(int source, int target, int flow) {
             flowMatrix[source][target] = flow;
+
         }
 
         /**
@@ -119,7 +129,14 @@ public class NetImpl extends ResidualNetImpl implements Net {
          */
         @Override
         public boolean isValidFlow() {
-            return false;
+            for (int i = 0; i < adjMatrix.length; i++) {
+                // 1. kirchhoffs law: nothing flows into the source ( -> first column always 0)
+                // nothing flows out of the sink ( -> last row always 0)
+                if (adjMatrix[i][0] > 0 || adjMatrix[adjMatrix.length - 1][i] > 0) {
+                    return false;
+                }
+            }
+            return true;
         }
 
         /**

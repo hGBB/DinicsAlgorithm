@@ -16,12 +16,16 @@ public class Edge {
         return source;
     }
 
+    public int getTarget() {
+        return target;
+    }
+
     public int getCapacity() {
         return capacity;
     }
 
-    public int getTarget() {
-        return target;
+    public int getFlow() {
+        return flow;
     }
 
     public void setCapacity(int capacity) {

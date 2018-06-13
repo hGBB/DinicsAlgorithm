@@ -50,6 +50,7 @@ public final class Shell {
                         break;
                     case 'c':
                         System.out.println(net.getFlow());
+                        System.out.println(net.getFlow().isValidFlow());
                         break;
                     case 'r':
                         resNet = net.createResidualNet();
@@ -58,7 +59,7 @@ public final class Shell {
                         break;
                     case 's':
 
-                        System.out.println(net.isSinkReachableFromSource());
+                   //     System.out.println(net.isSinkReachableFromSource());
                         break;
                     case 'h':
                         break;
