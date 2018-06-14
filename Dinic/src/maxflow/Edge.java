@@ -25,6 +25,10 @@ public class Edge {
         return capacity;
     }
 
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
     public void addCapacity(int capacity) {
         this.capacity = this.capacity + capacity;
     }
@@ -35,5 +39,13 @@ public class Edge {
 
     public void setFlow(int flow) {
         this.flow = flow;
+    }
+
+    public void setDepth(int depth) {
+        this.depth = depth;
+    }
+
+    public int getDepth() {
+        return depth;
     }
 }

@@ -52,7 +52,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
      */
     @Override
     public NiveauGraph createNiveauGraph(ResidualNet residualNet) {
-        return null;
+        return new NiveauGraphImpl(residualNet);
     }
 
     /**

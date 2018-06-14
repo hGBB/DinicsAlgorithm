@@ -29,7 +29,7 @@ public class ResidualNetImpl implements ResidualNet {
                 }
             }
         }
-        }
+    }
 
 
     /**
@@ -37,7 +37,7 @@ public class ResidualNetImpl implements ResidualNet {
      */
     @Override
     public int getEdgeCapacity(int source, int target) {
-        return 0;
+        return adjMatrix[source][target].getCapacity();
     }
 
     /**
@@ -85,7 +85,7 @@ public class ResidualNetImpl implements ResidualNet {
      */
     @Override
     public int getNumberOfNodes() {
-        return 0;
+        return adjMatrix.length;
     }
 
     /**
@@ -109,7 +109,7 @@ public class ResidualNetImpl implements ResidualNet {
      */
     @Override
     public boolean hasEdge(int source, int target) {
-        return false;
+        return adjMatrix[source][target] != null;
     }
 
     /**

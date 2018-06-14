@@ -1,8 +1,6 @@
 package user_interaction;
 
-import maxflow.Net;
-import maxflow.NetImpl;
-import maxflow.ResidualNet;
+import maxflow.*;
 
 import java.io.*;
 import java.util.LinkedList;
@@ -70,8 +68,8 @@ public final class Shell {
                         System.out.println(resNet);
                         break;
                     case 's':
-
-                   //     System.out.println(net.isSinkReachableFromSource());
+                        NiveauGraph niveauGraph = net.createNiveauGraph(resNet);
+                        System.out.println("Niveau graph is:\n" + niveauGraph);
                         break;
                     case 'h':
                         break;
