@@ -15,8 +15,10 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
         LinkedList<Integer> allNodesOfAllLevels = new LinkedList<>();
         LinkedList<Integer> nodesOfCurrentLevel = new LinkedList<>();
         // manually add the root to the first current level
-        nodesOfCurrentLevel.add(0);
-        while (sinkNotReached()) {
+        int source = residualNet.getSource();
+        int sink = residualNet.getSink();
+        nodesOfCurrentLevel.add(source);
+        while (sinkNotReached(sink)) {
                 if (allNodesOfAllLevels.isEmpty()) {
                     for (int j = 1; j < size; j++) {
                         if (residualNet.hasEdge(0, j)) {
@@ -44,9 +46,9 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
 
     }
 
-    private boolean sinkNotReached() {
+    private boolean sinkNotReached(int sink) {
         for (Edge[] aNiveauGraph : this.adjMatrix) {
-            if (aNiveauGraph[this.adjMatrix.length - 1] != null) {
+            if (aNiveauGraph[sink] != null) {
                 return false;
             }
         }

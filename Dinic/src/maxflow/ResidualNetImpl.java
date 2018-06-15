@@ -68,7 +68,7 @@ public class ResidualNetImpl implements ResidualNet {
     public boolean isSinkReachableFromSource() {
         List<Integer> checkedNodes = new ArrayList<>();
         List<Integer> currentlyChecking = new ArrayList<>();
-        currentlyChecking.add(adjMatrix.length - 1);
+        currentlyChecking.add(getSink());
         List<Integer> nextChecking = new ArrayList<>();
         while (true) {
             if (currentlyChecking.isEmpty()) {
@@ -109,6 +109,14 @@ public class ResidualNetImpl implements ResidualNet {
      */
     @Override
     public int getSource() {
+        for (int i = 0; i < adjMatrix.length; i++) {
+            for (int j = 0; j < adjMatrix.length; j++) {
+                if (adjMatrix[i][j] != null) {
+                    return i;
+                }
+            }
+        }
+        System.out.print("nooooGetSource");
     return 0;
     }
 
@@ -117,6 +125,15 @@ public class ResidualNetImpl implements ResidualNet {
      */
     @Override
     public int getSink() {
+        // arrays start at 0 therefore we have to subtract 1 from the length.
+        for (int i = adjMatrix.length - 1; i > 0; i--) {
+            for (int j = 0; j < adjMatrix.length; j++) {
+                if (adjMatrix[j][i] != null) {
+                    return i;
+                }
+            }
+        }
+        System.out.print("noooo getSink");
         return 0;
     }
 

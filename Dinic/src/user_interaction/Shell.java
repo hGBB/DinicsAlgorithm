@@ -68,9 +68,7 @@ public final class Shell {
                         System.out.println(resNet);
                         break;
                     case 's':
-
-                        System.out.print(resNet.isSinkReachableFromSource());
-                        if (resNet != null && resNet.isSinkReachableFromSource()) {
+                        if (resNet != null) {
                             niveauGraph = net.createNiveauGraph(resNet);
                             System.out.println("Niveau graph is:\n" + niveauGraph);
                         }
