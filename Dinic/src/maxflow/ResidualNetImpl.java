@@ -70,14 +70,13 @@ public class ResidualNetImpl implements ResidualNet {
         List<Integer> currentlyChecking = new ArrayList<>();
         currentlyChecking.add(adjMatrix.length - 1);
         List<Integer> nextChecking = new ArrayList<>();
-        boolean result = false;
-        while (!result) {
+        while (true) {
             if (currentlyChecking.isEmpty()) {
                 return false;
             } else {
                 for (Integer i : currentlyChecking) {
                     if (i == 0) {
-                        result = true;
+                        return true;
                     } else {
                         for (int j = 0; j < adjMatrix.length - 1; j++) {
                             if ((checkedNodes.isEmpty() || !checkedNodes.contains(j)) && !currentlyChecking.contains(j) && adjMatrix[j][i] != null) {
@@ -92,7 +91,6 @@ public class ResidualNetImpl implements ResidualNet {
                 nextChecking.clear();
             }
         }
-        return result;
     }
 
 
