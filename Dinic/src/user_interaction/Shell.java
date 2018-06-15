@@ -20,6 +20,7 @@ public final class Shell {
         boolean quit = false;
         Net net = null;
         ResidualNet resNet = null;
+        NiveauGraph niveauGraph;
         while (!quit) {
             System.out.print("dinic> ");
             String input = stdin.readLine();
@@ -60,7 +61,6 @@ public final class Shell {
                         break;
                     case 'c':
                         System.out.println(net.getFlow());
-            //            System.out.println(net.getFlow().isValidFlow());
                         break;
                     case 'r':
                         resNet = net.createResidualNet();
@@ -68,8 +68,12 @@ public final class Shell {
                         System.out.println(resNet);
                         break;
                     case 's':
-                        NiveauGraph niveauGraph = net.createNiveauGraph(resNet);
-                        System.out.println("Niveau graph is:\n" + niveauGraph);
+
+                        System.out.print(resNet.isSinkReachableFromSource());
+                        if (resNet != null && resNet.isSinkReachableFromSource()) {
+                            niveauGraph = net.createNiveauGraph(resNet);
+                            System.out.println("Niveau graph is:\n" + niveauGraph);
+                        }
                         break;
                     case 'h':
                         break;

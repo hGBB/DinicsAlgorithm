@@ -1,5 +1,9 @@
 package maxflow;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * {@inheritDoc}
  */
@@ -62,22 +66,36 @@ public class ResidualNetImpl implements ResidualNet {
      */
     @Override
     public boolean isSinkReachableFromSource() {
-        return reachableSink(0);
+        List<Integer> checkedNodes = new ArrayList<>();
+        List<Integer> currentlyChecking = new ArrayList<>();
+        currentlyChecking.add(adjMatrix.length - 1);
+        List<Integer> nextChecking = new ArrayList<>();
+        boolean result = false;
+        while (!result) {
+            if (currentlyChecking.isEmpty()) {
+                return false;
+            } else {
+                for (Integer i : currentlyChecking) {
+                    if (i == 0) {
+                        result = true;
+                    } else {
+                        for (int j = 0; j < adjMatrix.length - 1; j++) {
+                            if ((checkedNodes.isEmpty() || !checkedNodes.contains(j)) && !currentlyChecking.contains(j) && adjMatrix[j][i] != null) {
+                                nextChecking.add(j);
+                            }
+                        }
+                    }
+                }
+                checkedNodes.addAll(currentlyChecking);
+                currentlyChecking.clear();
+                currentlyChecking.addAll(nextChecking);
+                nextChecking.clear();
+            }
+        }
+        return result;
     }
 
-    private boolean reachableSink(int startingNode) {
-        return false;
-    }
 
-    /**
-     * Helper method for isSinkReachableFromSource() parses the Node / Edge net
-     *
-     * @param node Starting node to parse through the net towards sink
-     * @return True only if the sink is connected to the source
-     */
-    private boolean parseAllNodes(Node node) {
-        return false;
-    }
 
 
     /**
