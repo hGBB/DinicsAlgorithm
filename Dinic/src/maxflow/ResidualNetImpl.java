@@ -1,7 +1,6 @@
 package maxflow;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -20,7 +19,7 @@ public class ResidualNetImpl implements ResidualNet {
         for (int i = 0; i < adjMatrix.length; i++) {
             for (int j = 0; j < adjMatrix.length; j++) {
                 if (adjMatrix[i][j] != null) {
-                    int flo = adjMatrix[i][j].getFlow();
+                    int flo = flow.getEdgeFlow(i, j);
                     int capacity = adjMatrix[i][j].getCapacity();
                     if (capacity - flo > 0) {
                         this.adjMatrix[i][j] = new Edge(i, j, capacity - flo);

@@ -96,7 +96,6 @@ public class NetImpl extends ResidualNetImpl implements Net {
         @Override
         public void setEdgeFlow(int source, int target, int flow) {
             if (adjMatrix[source][target].getCapacity() >= flow) {
-                adjMatrix[source][target].setFlow(flow);
                 flowMatrix[source][target] = flow;
             // Todo move this error to shell!
             } else {
@@ -113,15 +112,17 @@ public class NetImpl extends ResidualNetImpl implements Net {
             for (int i = 0; i < adjMatrix.length; i++) {
                 // nothing flows into the source ( -> first column always 0)
                 // nothing flows out of the sink ( -> last row always 0)
-                if ((adjMatrix[i][0] != null && adjMatrix[i][0].getFlow() > 0)
-                        || (adjMatrix[adjMatrix.length - 1][i] != null && adjMatrix[adjMatrix.length - 1][i].getFlow() > 0)) {
+                if ((adjMatrix[i][0] != null && flowMatrix[i][0] > 0)
+                        || (adjMatrix[adjMatrix.length - 1][i] != null
+                        && flowMatrix[flowMatrix.length - 1][i] > 0)) {
                     return false;
                 }
             }
             // it is not possible for and edge to have a higher flow than capacity
             for (Edge[] edgeArray : adjMatrix)
             for (Edge e : edgeArray) {
-                if (e != null && e.getFlow() > e.getCapacity()) {
+                if (e != null && flowMatrix[e.getSource()][e.getTarget()]
+                        > e.getCapacity()) {
                     return false;
                 }
             }
@@ -138,7 +139,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
             for (int i = 0; i < adjMatrix.length; i++) {
                 for (int j = 0; j < adjMatrix.length; j++) {
                     if (adjMatrix[i][j] != null)
-                    adjMatrix[i][j].setFlow(0);
+                    flowMatrix[i][j] = 0;
                 }
             }
         }
@@ -157,11 +158,15 @@ public class NetImpl extends ResidualNetImpl implements Net {
             StringBuilder sb = new StringBuilder();
             for (Edge[] edgeArray : adjMatrix) {
                 for (Edge e : edgeArray) {
-                    if (e != null && e.getFlow() != 0) {
+                    if (e != null) {
+                        int source = e.getSource();
+                        int target = e.getTarget();
+                    if (flowMatrix[source][target] != 0) {
                         sb.append("(").append(e.getSource() + 1).append(", ").append(e.getTarget() + 1)
-                                .append(") (").append(e.getFlow())
+                                .append(") (").append(flowMatrix[source][target])
                                 .append("/").append(e.getCapacity())
                                 .append(")").append("\n");
+                    }
                     }
                 }
             }

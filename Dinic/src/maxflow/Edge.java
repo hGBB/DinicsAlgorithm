@@ -4,8 +4,6 @@ public class Edge {
     private int source;
     private int target;
     private int capacity; // the maximum amount which CAN flow through an edge
-    private int flow;     // the amount which IS flowing through an edge
-    private int depth;
 
     public Edge(int s, int t, int capacity) {
         source = s;
@@ -32,20 +30,4 @@ public class Edge {
     public void addCapacity(int capacity) {
         this.capacity = this.capacity + capacity;
     }
-
-    public int getFlow() {
-        return flow;
     }
-
-    public void setFlow(int flow) {
-        this.flow = flow;
-    }
-
-    public void setDepth(int depth) {
-        this.depth = depth;
-    }
-
-    public int getDepth() {
-        return depth;
-    }
-}

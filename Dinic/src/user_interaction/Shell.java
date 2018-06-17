@@ -41,6 +41,7 @@ public final class Shell {
                             }
                             for (int i = 1; i < flowInputFile.size(); i++) {
                                 int[] inp = flowInputFile.get(i);
+
                                 net.getFlow().setEdgeFlow(inp[0], inp[1], inp[2]);
                             }
                         } else {
