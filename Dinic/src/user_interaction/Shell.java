@@ -20,7 +20,7 @@ public final class Shell {
         boolean quit = false;
         Net net = null;
         ResidualNet resNet = null;
-        NiveauGraph niveauGraph;
+        NiveauGraph niveauGraph = null;
         while (!quit) {
             System.out.print("dinic> ");
             String input = stdin.readLine();
@@ -55,6 +55,11 @@ public final class Shell {
                         }
                         break;
                     case 'p':
+                        if (niveauGraph != null) {
+
+                        } else {
+                            error("Initialize a niveaugraph first!");
+                        }
                         break;
                     case 'd':
                         System.out.println(net);
