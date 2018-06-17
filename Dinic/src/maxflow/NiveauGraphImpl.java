@@ -9,20 +9,21 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
 
     private int index;
 
-    public NiveauGraphImpl(ResidualNet residualNet) {
-        int size = residualNet.getNumberOfNodes();
+    public NiveauGraphImpl(ResidualNet resNet) {
+        int size = resNet.getNumberOfNodes();
         this.adjMatrix = new Edge[size][size];
         LinkedList<Integer> allNodesOfAllLevels = new LinkedList<>();
         LinkedList<Integer> nodesOfCurrentLevel = new LinkedList<>();
         // manually add the root to the first current level
-        int source = residualNet.getSource();
-        int sink = residualNet.getSink();
+        int source = resNet.getSource();
+        int sink = resNet.getSink();
         nodesOfCurrentLevel.add(source);
-        while (sinkNotReached(sink)) {
+        while (allNodesOfAllLevels.isEmpty()
+                || !allNodesOfAllLevels.contains(sink)) {
                 if (allNodesOfAllLevels.isEmpty()) {
                     for (int j = 1; j < size; j++) {
-                        if (residualNet.hasEdge(0, j)) {
-                            adjMatrix[0][j] = new Edge(0, j, residualNet.getEdgeCapacity(0, j));
+                        if (resNet.hasEdge(0, j)) {
+                            adjMatrix[0][j] = new Edge(0, j, resNet.getEdgeCapacity(0, j));
                             nodesOfCurrentLevel.add(j);
                         }
                     }
@@ -32,8 +33,8 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
                     nodesOfCurrentLevel.clear();
                     for (Integer node : nodesOfLastLevel) {
                         for (int k = 0; k < size; k++) {
-                            if (!allNodesOfAllLevels.contains(k) && residualNet.hasEdge(node, k)) {
-                                adjMatrix[node][k] = new Edge(node, k, residualNet.getEdgeCapacity(node, k));
+                            if (!allNodesOfAllLevels.contains(k) && resNet.hasEdge(node, k)) {
+                                adjMatrix[node][k] = new Edge(node, k, resNet.getEdgeCapacity(node, k));
                                 nodesOfCurrentLevel.add(k);
                             }
 
@@ -44,19 +45,6 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
         }
 
 
-    }
-
-    private boolean sinkNotReached(int sink) {
-        for (Edge[] aNiveauGraph : this.adjMatrix) {
-            if (aNiveauGraph[sink] != null) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean allreadyInBFS(Edge edge) {
-        return false;
     }
 
     /**
