@@ -12,7 +12,8 @@ public class ResidualNetImpl implements ResidualNet {
     /**
      * Standard constructor
      */
-    public ResidualNetImpl() {}
+    public ResidualNetImpl() {
+    }
 
     public ResidualNetImpl(Edge[][] adjMatrix, NetImpl.Flow flow) {
         this.adjMatrix = new Edge[adjMatrix.length][adjMatrix.length];
@@ -78,7 +79,10 @@ public class ResidualNetImpl implements ResidualNet {
                         return true;
                     } else {
                         for (int j = 0; j < adjMatrix.length - 1; j++) {
-                            if ((checkedNodes.isEmpty() || !checkedNodes.contains(j)) && !currentlyChecking.contains(j) && adjMatrix[j][i] != null) {
+                            if ((checkedNodes.isEmpty()
+                                    || !checkedNodes.contains(j))
+                                    && !currentlyChecking.contains(j)
+                                    && adjMatrix[j][i] != null) {
                                 nextChecking.add(j);
                             }
                         }
@@ -91,8 +95,6 @@ public class ResidualNetImpl implements ResidualNet {
             }
         }
     }
-
-
 
 
     /**
@@ -116,7 +118,7 @@ public class ResidualNetImpl implements ResidualNet {
             }
         }
         System.out.print("nooooGetSource");
-    return 0;
+        return 0;
     }
 
     /**

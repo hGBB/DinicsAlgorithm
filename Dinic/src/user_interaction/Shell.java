@@ -29,8 +29,8 @@ public final class Shell {
             if (checkInput(tokens)) {
                 switch (input.toLowerCase().charAt(0)) {
                     case 'n':
-                        LinkedList<int[]> inputFile = convertInputToInt(
-                                createInputStream(tokens[1]));
+                        LinkedList<int[]> inputFile = convertToArray(
+                                createInputList(tokens[1]));
                         if (inputFile.size() != 0
                                 && checkForValidNumbers(inputFile)) {
                             net = new NetImpl(inputFile);
@@ -39,7 +39,7 @@ public final class Shell {
                     case 'f':
                         if (net != null) {
                             LinkedList<int[]> flowInputFile =
-                                convertInputToInt(createInputStream(tokens[1]));
+                                    convertToArray(createInputList(tokens[1]));
                             if (checkForValidNumbers(flowInputFile)) {
                                 if (net.getFlow() != null) {
                                     net.getFlow().clear();
@@ -54,7 +54,7 @@ public final class Shell {
                         break;
                     case 'm':
                         if (net != null) {
-                        System.out.println("Maximum flow is: " + 1);
+                            System.out.println("Maximum flow is: " + 1);
                         } else {
                             error("ladida");
                         }
@@ -97,9 +97,7 @@ public final class Shell {
     }
 
 
-
-
-    private static LinkedList<String> createInputStream(String filename)
+    private static LinkedList<String> createInputList(String filename)
             throws IOException {
         LinkedList<String> lines = new LinkedList<>();
         File file = new File(filename);
@@ -122,7 +120,7 @@ public final class Shell {
     }
 
     private static LinkedList<int[]>
-    convertInputToInt(LinkedList<String> lines) {
+    convertToArray(LinkedList<String> lines) {
         LinkedList<int[]> convertedString = new LinkedList<>();
         for (int i = 0; i < lines.size(); i++) {
             String[] tokens = lines.get(i).split("\\s+");
@@ -142,18 +140,18 @@ public final class Shell {
                         Integer.parseInt(tokens[2])};
                 convertedString.add(edge);
             } else {
-                error("The Input File does not suit the Program! " +
-                        "Please check if it fits the convention" +
-                        "*first line:*" +
-                        "ONE NUMBER " +
-                        "*every following line:*" +
-                        "THE NUMBERS DIVIDED BY A WHITESPACE");
+                error("The Input File does not suit the Program! "
+                        + "Please check if it fits the convention"
+                        + "*first line:*"
+                        + "ONE NUMBER "
+                        + "*every following line:*"
+                        + "THE NUMBERS DIVIDED BY A WHITESPACE");
                 convertedString.clear();
                 convertedString.add(new int[]{0});
                 return convertedString;
             }
         }
-            return convertedString;
+        return convertedString;
     }
 
     private static boolean checkForValidNumbers(LinkedList<int[]> input) {

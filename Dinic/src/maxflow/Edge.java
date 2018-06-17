@@ -7,8 +7,9 @@ public class Edge {
 
     /**
      * Constructor for edges
-     * @param s the source node
-     * @param t the target node
+     *
+     * @param s        the source node
+     * @param t        the target node
      * @param capacity the amount which can flow through the edge
      */
     public Edge(int s, int t, int capacity) {
@@ -61,4 +62,4 @@ public class Edge {
     public void addCapacity(int capacity) {
         this.capacity = this.capacity + capacity;
     }
-    }
+}
