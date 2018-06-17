@@ -21,6 +21,7 @@ public final class Shell {
         Net net = null;
         ResidualNet resNet = null;
         NiveauGraph niveauGraph = null;
+        MaxFlow maxFlow = new MaxFlowImpl();
         while (!quit) {
             System.out.print("dinic> ");
             String input = stdin.readLine();
@@ -28,35 +29,34 @@ public final class Shell {
             if (checkInput(tokens)) {
                 switch (input.toLowerCase().charAt(0)) {
                     case 'n':
-                        LinkedList<String> inputFile = createInputStream(tokens[1]);
-                        if (inputFile.size() != 0) {
-                            net = new NetImpl(convertInputToInt(inputFile));
+                        LinkedList<int[]> inputFile = convertInputToInt(createInputStream(tokens[1]));
+                        if (inputFile.size() != 0 && checkForValidNumbers(inputFile)) {
+                            net = new NetImpl(inputFile);
                         }
                         break;
                     case 'f':
                         if (net != null) {
                             LinkedList<int[]> flowInputFile = convertInputToInt(createInputStream(tokens[1]));
-                            if (net.getFlow() != null) {
-                                net.getFlow().clear();
+                            if (checkForValidNumbers(flowInputFile)) {
+                                if (net.getFlow() != null) {
+                                    net.getFlow().clear();
+                                }
+                                for (int i = 1; i < flowInputFile.size(); i++) {
+                                    int[] inp = flowInputFile.get(i);
+                                    net.getFlow().setEdgeFlow(inp[0], inp[1], inp[2]);
+                                }
                             }
-                            for (int i = 1; i < flowInputFile.size(); i++) {
-                                int[] inp = flowInputFile.get(i);
-
-                                net.getFlow().setEdgeFlow(inp[0], inp[1], inp[2]);
-                            }
-                        } else {
-                            error("ladida");
                         }
                         break;
                     case 'm':
-                        if (resNet != null) {
-                        System.out.println("Hello");
+                        if (net != null) {
+                        System.out.println("Maximum flow is: " + 1);
                         } else {
                             error("ladida");
                         }
                         break;
                     case 'p':
-                        if (niveauGraph != null) {
+                        if (net != null) {
 
                         } else {
                             error("Initialize a niveaugraph first!");
@@ -90,6 +90,8 @@ public final class Shell {
             }
         }
     }
+
+
 
 
     private static LinkedList<String> createInputStream(String filename)
@@ -148,6 +150,25 @@ public final class Shell {
         }
             return convertedString;
     }
+
+    private static boolean checkForValidNumbers(LinkedList<int[]> input) {
+        // check if all Edges given by the input file are in range of the nodes
+        int stayInRange = input.get(0)[0];
+        for (int i = 1; i < input.size(); i++) {
+            int source = input.get(i)[0];
+            int target = input.get(i)[1];
+            int capacity = input.get(i)[2];
+
+            if (source < 0 || source > stayInRange || target < 0 || target > stayInRange || capacity < 0) {
+                error("The input file is broken.");
+                return false;
+            }
+        }
+
+
+        return true;
+    }
+
 
     /**
      * Help-method to check if the User input contains
