@@ -29,21 +29,25 @@ public final class Shell {
             if (checkInput(tokens)) {
                 switch (input.toLowerCase().charAt(0)) {
                     case 'n':
-                        LinkedList<int[]> inputFile = convertInputToInt(createInputStream(tokens[1]));
-                        if (inputFile.size() != 0 && checkForValidNumbers(inputFile)) {
+                        LinkedList<int[]> inputFile = convertInputToInt(
+                                createInputStream(tokens[1]));
+                        if (inputFile.size() != 0
+                                && checkForValidNumbers(inputFile)) {
                             net = new NetImpl(inputFile);
                         }
                         break;
                     case 'f':
                         if (net != null) {
-                            LinkedList<int[]> flowInputFile = convertInputToInt(createInputStream(tokens[1]));
+                            LinkedList<int[]> flowInputFile =
+                                convertInputToInt(createInputStream(tokens[1]));
                             if (checkForValidNumbers(flowInputFile)) {
                                 if (net.getFlow() != null) {
                                     net.getFlow().clear();
                                 }
                                 for (int i = 1; i < flowInputFile.size(); i++) {
                                     int[] inp = flowInputFile.get(i);
-                                    net.getFlow().setEdgeFlow(inp[0], inp[1], inp[2]);
+                                    net.getFlow().setEdgeFlow(inp[0],
+                                            inp[1], inp[2]);
                                 }
                             }
                         }
@@ -76,7 +80,8 @@ public final class Shell {
                     case 's':
                         if (resNet != null) {
                             niveauGraph = net.createNiveauGraph(resNet);
-                            System.out.println("Niveau graph is:\n" + niveauGraph);
+                            System.out.println("Niveau graph is:\n"
+                                    + niveauGraph);
                         }
                         break;
                     case 'h':
@@ -159,7 +164,8 @@ public final class Shell {
             int target = input.get(i)[1];
             int capacity = input.get(i)[2];
 
-            if (source < 0 || source > stayInRange || target < 0 || target > stayInRange || capacity < 0) {
+            if (source < 0 || source > stayInRange || target < 0
+                    || target > stayInRange || capacity < 0) {
                 error("The input file is broken.");
                 return false;
             }

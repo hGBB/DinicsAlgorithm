@@ -122,7 +122,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
                     return false;
                 }
             }
-            // it is not possible for and edge to have a higher flow than capacity
+            // not possible for and edge to have a higher flow than capacity
             for (Edge[] edgeArray : adjMatrix) {
                 for (Edge e : edgeArray) {
                     if (e != null && flowMatrix[e.getSource()][e.getTarget()]
@@ -131,6 +131,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
                     }
                 }
             }
+            // TODO overwork this and check for correct
             for (int i = 0; i < size; i++) {
                 int incoming = 0;
                 int outgoing = 0;
@@ -173,7 +174,6 @@ public class NetImpl extends ResidualNetImpl implements Net {
 
         @Override
         public String toString() {
-            // TODO overwork this!
             StringBuilder sb = new StringBuilder();
             for (Edge[] edgeArray : adjMatrix) {
                 for (Edge e : edgeArray) {
@@ -181,8 +181,10 @@ public class NetImpl extends ResidualNetImpl implements Net {
                         int source = e.getSource();
                         int target = e.getTarget();
                     if (flowMatrix[source][target] != 0) {
-                        sb.append("(").append(e.getSource() + 1).append(", ").append(e.getTarget() + 1)
-                                .append(") (").append(flowMatrix[source][target])
+                        sb.append("(").append(e.getSource() + 1)
+                                .append(", ").append(e.getTarget() + 1)
+                                .append(") (")
+                                .append(flowMatrix[source][target])
                                 .append("/").append(e.getCapacity())
                                 .append(")").append("\n");
                     }
