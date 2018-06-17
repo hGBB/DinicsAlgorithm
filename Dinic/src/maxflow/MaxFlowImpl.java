@@ -5,6 +5,9 @@ package maxflow;
  */
 public class MaxFlowImpl implements MaxFlow {
 
+    /**
+     * Constructor
+     */
     public MaxFlowImpl() {
 
     }

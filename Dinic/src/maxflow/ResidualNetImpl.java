@@ -163,6 +163,6 @@ public class ResidualNetImpl implements ResidualNet {
             }
             sb.append("\n");
         }
-
-        return sb.toString().trim();}
+        return sb.toString().trim();
+    }
 }

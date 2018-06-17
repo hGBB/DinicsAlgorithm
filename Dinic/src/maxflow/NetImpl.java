@@ -8,7 +8,11 @@ import java.util.LinkedList;
 public class NetImpl extends ResidualNetImpl implements Net {
     private Flow flow;
 
-
+    /**
+     * Constructor for a new net
+     *
+     * @param input a list out of which a net is created
+     */
     public NetImpl(LinkedList<int[]> input) {
         // create matrix with size given in the input's first line
         int matrixSize = input.get(0)[0];
@@ -75,7 +79,6 @@ public class NetImpl extends ResidualNetImpl implements Net {
          * {@inheritDoc}
          */
         @Override
-
         public int getEdgeFlow(int source, int target) {
             // shift to the left because arrays start at 0
             return flowMatrix[source][target];
@@ -120,11 +123,12 @@ public class NetImpl extends ResidualNetImpl implements Net {
                 }
             }
             // it is not possible for and edge to have a higher flow than capacity
-            for (Edge[] edgeArray : adjMatrix)
-            for (Edge e : edgeArray) {
-                if (e != null && flowMatrix[e.getSource()][e.getTarget()]
-                        > e.getCapacity()) {
-                    return false;
+            for (Edge[] edgeArray : adjMatrix) {
+                for (Edge e : edgeArray) {
+                    if (e != null && flowMatrix[e.getSource()][e.getTarget()]
+                            > e.getCapacity()) {
+                        return false;
+                    }
                 }
             }
             for (int i = 0; i < size; i++) {
@@ -152,8 +156,9 @@ public class NetImpl extends ResidualNetImpl implements Net {
 
             for (int i = 0; i < adjMatrix.length; i++) {
                 for (int j = 0; j < adjMatrix.length; j++) {
-                    if (adjMatrix[i][j] != null)
-                    flowMatrix[i][j] = 0;
+                    if (adjMatrix[i][j] != null) {
+                        flowMatrix[i][j] = 0;
+                    }
                 }
             }
         }
