@@ -1,8 +1,6 @@
 package maxflow;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+import java.util.*;
 
 /**
  * {@inheritDoc}
@@ -54,6 +52,7 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
             allNodesOfAllLevels.addAll(nodesOfCurrentLevel);
         }
         createIndexes(source, sink);
+        Integer[] test = findPath();
     }
 
     private void createIndexes(int source, int sink) {
@@ -85,14 +84,75 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
         }
     }
 
-
-
     /**
      * {@inheritDoc}
      */
     @Override
     public Integer[] findPath() {
-        return new Integer[0];
+        if (!isSinkReachableFromSource()) {
+            return null;
+        } else {
+            int max = index[getSink()];
+            Integer[] result = new Integer[max];
+            LinkedList<Edge> edgesInNiveau = new LinkedList<>();
+            for (Edge[] edges : adjMatrix) {
+                for (Edge e : edges) {
+                    if (e != null) {
+                        edgesInNiveau.add(e);
+                    }
+                }
+            }
+            int emptyPositions = max- 1;
+            int depth = 0;
+            while (emptyPositions >= 0) {
+                for (Edge e : edgesInNiveau) {
+                    int edgePosition = e.getSource();
+                    // if sink can be reached and the depth is higher than the prior add to result
+                    if (isSinkReachableFromEdge(edgePosition) && index[edgePosition] == depth + 1) {
+                        result[depth] = edgePosition;
+                        emptyPositions--;
+                        depth++;
+                        break;
+                    }
+                    if (hasEdge(e.getSource(), getSink())) {
+                        result[max - 1] = getSink();
+                        return result;
+                    }
+                }
+            }
+            return null;
+        }
     }
 
+    public boolean isSinkReachableFromEdge(int position) {
+        List<Integer> checkedNodes = new ArrayList<>();
+        List<Integer> currentlyChecking = new ArrayList<>();
+        currentlyChecking.add(getSink());
+        List<Integer> nextChecking = new ArrayList<>();
+        while (true) {
+            if (currentlyChecking.isEmpty()) {
+                return false;
+            } else {
+                for (Integer i : currentlyChecking) {
+                    if (i == position) {
+                        return true;
+                    } else {
+                        for (int j = 0; j < adjMatrix.length - 1; j++) {
+                            if ((checkedNodes.isEmpty()
+                                    || !checkedNodes.contains(j))
+                                    && !currentlyChecking.contains(j)
+                                    && adjMatrix[j][i] != null) {
+                                nextChecking.add(j);
+                            }
+                        }
+                    }
+                }
+                checkedNodes.addAll(currentlyChecking);
+                currentlyChecking.clear();
+                currentlyChecking.addAll(nextChecking);
+                nextChecking.clear();
+            }
+        }
+    }
 }
+
