@@ -107,8 +107,10 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
             while (emptyPositions >= 0) {
                 for (Edge e : edgesInNiveau) {
                     int edgePosition = e.getSource();
-                    // if sink can be reached and the depth is higher than the prior add to result
-                    if (isSinkReachableFromEdge(edgePosition) && index[edgePosition] == depth + 1) {
+                    // if sink can be reached and the depth
+                    // is higher than the prior add to result
+                    if (isSinkReachableFromEdge(edgePosition)
+                            && index[edgePosition] == depth + 1) {
                         result[depth] = edgePosition;
                         emptyPositions--;
                         depth++;
