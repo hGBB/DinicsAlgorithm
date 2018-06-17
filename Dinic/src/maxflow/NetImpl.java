@@ -109,12 +109,13 @@ public class NetImpl extends ResidualNetImpl implements Net {
          */
         @Override
         public boolean isValidFlow() {
-            for (int i = 0; i < adjMatrix.length; i++) {
+            int size = adjMatrix.length;
+            for (int i = 0; i < size; i++) {
                 // nothing flows into the source ( -> first column always 0)
                 // nothing flows out of the sink ( -> last row always 0)
                 if ((adjMatrix[i][0] != null && flowMatrix[i][0] > 0)
-                        || (adjMatrix[adjMatrix.length - 1][i] != null
-                        && flowMatrix[flowMatrix.length - 1][i] > 0)) {
+                        || (adjMatrix[size - 1][i] != null
+                        && flowMatrix[size - 1][i] > 0)) {
                     return false;
                 }
             }
@@ -126,7 +127,20 @@ public class NetImpl extends ResidualNetImpl implements Net {
                     return false;
                 }
             }
-            // TODO kirchhoffsches gesetz!!!
+            for (int i = 0; i < size; i++) {
+                int incoming = 0;
+                int outgoing = 0;
+                for (int j = 0; j < size; j++) {
+                    if (i != getSource() && i != getSink()) {
+                        incoming += flowMatrix[i][j];
+                        outgoing += flowMatrix[j][i];
+                    }
+                }
+                if (incoming != outgoing) {
+                    System.out.print("kirchhoff is mad!");
+                    return false;
+                }
+            }
             return true;
         }
 
