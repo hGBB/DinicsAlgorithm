@@ -54,7 +54,8 @@ public final class Shell {
                         break;
                     case 'm':
                         if (net != null) {
-                            System.out.println("Maximum flow is: " + 1);
+                            maxFlow.computeMaxFlow(net);
+                            System.out.println("Maximum flow is: " );
                         } else {
                             error("ladida");
                         }

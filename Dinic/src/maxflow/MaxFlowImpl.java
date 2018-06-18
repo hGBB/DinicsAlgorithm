@@ -20,40 +20,57 @@ public class MaxFlowImpl implements MaxFlow {
      */
     @Override
     public void computeMaxFlow(Net net) {
-        ResidualNet residualNet = net.createResidualNet();
-        boolean reachabel = residualNet.isSinkReachableFromSource();
-        NiveauGraph niveauGraph = net.createNiveauGraph(residualNet);
-    }
-
-    private void dinic(NiveauGraph niveauGraph, Net net) {
-        int size = niveauGraph.getNumberOfNodes();
-        int[][] flow = new int[size][size];
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                flow[i][j] = 0;
+        boolean reachable;
+        do {
+            ResidualNet residualNet = net.createResidualNet();
+        //    System.out.println(residualNet);
+        //    System.out.println(" ***** ");
+            NiveauGraph niveauGraph = net.createNiveauGraph(residualNet);
+            Integer blockingNodes [] = dinic(niveauGraph);
+            int min_c = 0;
+            if (blockingNodes != null) {
+                for (int i = 0; i < blockingNodes.length - 1; i++) {
+                    int edgeCapacity = niveauGraph.getEdgeCapacity(blockingNodes[i], blockingNodes[i + 1]);
+                    min_c += edgeCapacity;
+                }
+                for (int i = 0; i < blockingNodes.length - 1; i++) {
+                    net.getFlow().addEdgeFlow(blockingNodes[i], blockingNodes[i + 1], min_c);
+                }
+            } else {
+                System.out.println(niveauGraph);
             }
-        }
+            reachable = residualNet.isSinkReachableFromSource();
+        } while (reachable);
+        System.out.println(net);
+    }
+
+    private Integer[] dinic(NiveauGraph niveauGraph) {
+        return niveauGraph.findPath();
+    }
+
+    private void revertEdge(int source, int target) {
 
     }
 
-    public boolean isSourceReachableFromSink(NiveauGraph niveauGraph) {
+    public boolean isSourceReachableFromSink(NiveauGraph niveau) {
         List<Integer> checkedNodes = new ArrayList<>();
         List<Integer> currentlyChecking = new ArrayList<>();
-        currentlyChecking.add(niveauGraph.getSource());
+        currentlyChecking.add(niveau.getSource());
         List<Integer> nextChecking = new ArrayList<>();
         while (true) {
             if (currentlyChecking.isEmpty()) {
                 return false;
             } else {
                 for (Integer i : currentlyChecking) {
-                    if (i == niveauGraph.getSink()) {
+                    if (i == niveau.getSink()) {
                         return true;
                     } else {
-                        for (int j = 0; j < niveauGraph.getNumberOfNodes() - 1; j++) {
+                        for (int j = 0; j < niveau.getNumberOfNodes() - 1;
+                             j++) {
                             if ((checkedNodes.isEmpty()
                                     || !checkedNodes.contains(j))
                                     && !currentlyChecking.contains(j)
-                                    && niveauGraph.hasEdge(j, i)) {
+                                    && niveau.hasEdge(j, i)) {
                                 nextChecking.add(j);
                             }
                         }

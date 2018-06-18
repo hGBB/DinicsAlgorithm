@@ -49,7 +49,7 @@ public class ResidualNetImpl implements ResidualNet {
      */
     @Override
     public void setEdgeCapacity(int source, int target, int capacity) {
-
+        adjMatrix[source][target].setCapacity(capacity);
     }
 
     /**
@@ -57,8 +57,7 @@ public class ResidualNetImpl implements ResidualNet {
      */
     @Override
     public boolean isValidEdge(int source, int target, int capacity) {
-
-        return false;
+        return adjMatrix[source][target].getCapacity() == capacity;
     }
 
     /**
@@ -68,7 +67,7 @@ public class ResidualNetImpl implements ResidualNet {
     public boolean isSinkReachableFromSource() {
         List<Integer> checkedNodes = new ArrayList<>();
         List<Integer> currentlyChecking = new ArrayList<>();
-        currentlyChecking.add(getSink());
+        currentlyChecking.add(getNumberOfNodes() - 1);
         List<Integer> nextChecking = new ArrayList<>();
         while (true) {
             if (currentlyChecking.isEmpty()) {
