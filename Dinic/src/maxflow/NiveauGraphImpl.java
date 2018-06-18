@@ -23,8 +23,9 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
         int source = resNet.getSource();
         int sink = resNet.getSink();
         nodesOfCurrentLevel.add(source);
+        int counter = source;
         while (allNodesOfAllLevels.isEmpty()
-                || !allNodesOfAllLevels.contains(sink)) {
+                || (!allNodesOfAllLevels.contains(resNet.getNumberOfNodes()) && counter <= sink)) {
             if (allNodesOfAllLevels.isEmpty()) {
                 for (int j = 0; j < size; j++) {
                     if (resNet.hasEdge(0, j)) {
@@ -49,6 +50,7 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
                     }
                 }
             }
+            counter++;
             allNodesOfAllLevels.addAll(nodesOfCurrentLevel);
         }
         createIndexes(source, sink);
