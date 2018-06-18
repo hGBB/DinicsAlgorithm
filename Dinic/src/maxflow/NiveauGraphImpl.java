@@ -56,7 +56,6 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
             }
         }
         createIndexes(source, sink);
-        Integer[] test = findPath();
     }
 
     private void createIndexes(int source, int sink) {
