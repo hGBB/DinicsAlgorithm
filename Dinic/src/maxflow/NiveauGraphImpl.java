@@ -6,7 +6,6 @@ import java.util.*;
  * {@inheritDoc}
  */
 public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
-    private Map<Integer, Integer> nodeAndDepth = new HashMap<>();
     private int[] index;
 
     /**
