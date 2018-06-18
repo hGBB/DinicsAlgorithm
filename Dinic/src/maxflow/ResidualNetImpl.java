@@ -49,7 +49,13 @@ public class ResidualNetImpl implements ResidualNet {
      */
     @Override
     public void setEdgeCapacity(int source, int target, int capacity) {
-        adjMatrix[source][target].setCapacity(capacity);
+        if (capacity == 0) {
+            adjMatrix[source][target] = null;
+        } else if (adjMatrix[source][target] != null) {
+            adjMatrix[source][target].setCapacity(capacity);
+        } else {
+            adjMatrix[source][target] = new Edge(source, target, capacity);
+        }
     }
 
     /**

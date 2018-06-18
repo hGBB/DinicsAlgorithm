@@ -8,6 +8,10 @@ import java.util.LinkedList;
 public class NetImpl extends ResidualNetImpl implements Net {
     private Flow flow;
 
+    public NetImpl() {
+
+    }
+
     /**
      * Constructor for a new net
      *

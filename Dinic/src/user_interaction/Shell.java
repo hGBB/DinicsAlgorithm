@@ -64,7 +64,7 @@ public final class Shell {
                         if (net != null) {
 
                         } else {
-                            error("Initialize a niveaugraph first!");
+                            error("Initialize a net first!");
                         }
                         break;
                     case 'd':

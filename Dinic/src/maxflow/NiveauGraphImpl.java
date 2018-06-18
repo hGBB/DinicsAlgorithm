@@ -100,7 +100,7 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
             LinkedList<Edge> edgesInNiveau = new LinkedList<>();
             for (Edge[] edges : adjMatrix) {
                 for (Edge e : edges) {
-                    if (e != null) {
+                    if (e != null && e.getCapacity() > 0) {
                         edgesInNiveau.add(e);
                     }
                 }
@@ -111,7 +111,7 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
                 for (Edge e : edgesInNiveau) {
                     int edgePosition = e.getSource();
                     // if sink can be reached and the depth
-                    // is higher than the prior add to result
+                    // is higher than the prior node add to result
                     if (isSinkReachableFromEdge(edgePosition)
                             && index[edgePosition] == depth + 1) {
                         result[depth] = edgePosition;
@@ -129,7 +129,7 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
         }
     }
 
-    public boolean isSinkReachableFromEdge(int position) {
+    private boolean isSinkReachableFromEdge(int position) {
         List<Integer> checkedNodes = new ArrayList<>();
         List<Integer> currentlyChecking = new ArrayList<>();
         currentlyChecking.add(getSink());
