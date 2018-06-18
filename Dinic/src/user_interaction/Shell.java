@@ -62,7 +62,7 @@ public final class Shell {
                         break;
                     case 'p':
                         if (net != null) {
-
+                            System.out.println(net.getFlow().getTotalFlow());
                         } else {
                             error("Initialize a net first!");
                         }

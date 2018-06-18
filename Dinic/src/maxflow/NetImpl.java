@@ -173,7 +173,11 @@ public class NetImpl extends ResidualNetImpl implements Net {
          */
         @Override
         public int getTotalFlow() {
-            return 0;
+            int flow = 0;
+            for (int i = 0; i < flowMatrix.length; i++) {
+                flow += flowMatrix[i][getSink()];
+            }
+            return flow;
         }
 
         @Override
