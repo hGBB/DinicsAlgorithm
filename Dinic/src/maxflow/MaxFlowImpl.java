@@ -52,25 +52,20 @@ public class MaxFlowImpl implements MaxFlow {
                 }
             }
         }
+        int c_min = 99999;
         do {
             Integer[] path = niveauGraph.findPath();
-            int c_min = 0;
             for (int i = 0; i < path.length - 1; i++) {
-                c_min += capacity[path[i]][path[i + 1]];
+                if (capacity[path[i]][path[i + 1]] < c_min) {
+                    c_min = capacity[path[i]][path[i + 1]];
+                }
                 niveauGraph.setEdgeCapacity(path[i], path[i + 1], 0);
             }
             revertArray(path);
-            c_min /= (path.length - 1);
             for (int i = 0; i < path.length - 1; i++) {
                 flow[path[i]][path[i + 1]] += c_min;
             }
-            System.out.println("Blocking Flow = : ");
-            for (int i = 0; i < path.length; i++) {
-                System.out.print(path[i] + " to ");
-            }
         } while (niveauGraph.isSinkReachableFromSource());
-
-
     }
 
     /**
