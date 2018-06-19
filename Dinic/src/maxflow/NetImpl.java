@@ -20,13 +20,13 @@ public class NetImpl extends ResidualNetImpl implements Net {
     public NetImpl(LinkedList<int[]> input) {
         // create matrix with size given in the input's first line
         int matrixSize = input.get(0)[0];
-        this.adjMatrix = new Edge[matrixSize][matrixSize];
+        this.adjMatrix = new int[matrixSize][matrixSize];
         // create new list of edges
         this.flow = new Flow();
         for (int i = 0; i < adjMatrix.length; i++) {
             for (int j = 0; j < adjMatrix.length; j++) {
                 // fill matrix
-                adjMatrix[i][j] = null;
+                adjMatrix[i][j] = 0;
             }
         }
         for (int i = 1; i < input.size(); i++) {
@@ -35,7 +35,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
             int source = currentLine[0];
             int target = currentLine[1];
             int capacity = currentLine[2];
-            this.adjMatrix[source][target] = new Edge(source, target, capacity);
+            this.adjMatrix[source][target] = capacity;
         }
     }
 
@@ -102,7 +102,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
          */
         @Override
         public void setEdgeFlow(int source, int target, int flow) {
-            if (adjMatrix[source][target].getCapacity() >= flow) {
+            if (adjMatrix[source][target] >= flow) {
                 flowMatrix[source][target] = flow;
                 // Todo move this error to shell!
             } else {
@@ -120,17 +120,17 @@ public class NetImpl extends ResidualNetImpl implements Net {
             for (int i = 0; i < size; i++) {
                 // nothing flows into the source ( -> first column always 0)
                 // nothing flows out of the sink ( -> last row always 0)
-                if ((adjMatrix[i][0] != null && flowMatrix[i][0] > 0)
-                        || (adjMatrix[size - 1][i] != null
+                if ((adjMatrix[i][0] != 0 && flowMatrix[i][0] > 0)
+                        || (adjMatrix[size - 1][i] != 0
                         && flowMatrix[size - 1][i] > 0)) {
                     return false;
                 }
             }
             // not possible for and edge to have a higher flow than capacity
-            for (Edge[] edgeArray : adjMatrix) {
-                for (Edge e : edgeArray) {
-                    if (e != null && flowMatrix[e.getSource()][e.getTarget()]
-                            > e.getCapacity()) {
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    if (flowMatrix[i][j] != 0 && flowMatrix[i][j]
+                            > adjMatrix[i][j]) {
                         return false;
                     }
                 }
@@ -161,7 +161,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
 
             for (int i = 0; i < adjMatrix.length; i++) {
                 for (int j = 0; j < adjMatrix.length; j++) {
-                    if (adjMatrix[i][j] != null) {
+                    if (adjMatrix[i][j] != 0) {
                         flowMatrix[i][j] = 0;
                     }
                 }
@@ -183,17 +183,15 @@ public class NetImpl extends ResidualNetImpl implements Net {
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
-            for (Edge[] edgeArray : adjMatrix) {
-                for (Edge e : edgeArray) {
-                    if (e != null) {
-                        int source = e.getSource();
-                        int target = e.getTarget();
-                        if (flowMatrix[source][target] != 0) {
-                            sb.append("(").append(e.getSource() + 1)
-                                    .append(", ").append(e.getTarget() + 1)
+            for (int i = 0; i < adjMatrix.length; i++) {
+                for (int j = 0; j < adjMatrix.length; j++) {
+                    if (adjMatrix[i][j] != 0) {
+                        if (flowMatrix[i][j] != 0) {
+                            sb.append("(").append(i + 1)
+                                    .append(", ").append(j + 1)
                                     .append(") (")
-                                    .append(flowMatrix[source][target])
-                                    .append("/").append(e.getCapacity())
+                                    .append(flowMatrix[i][j])
+                                    .append("/").append(adjMatrix[i][j])
                                     .append(")").append("\n");
                         }
                     }

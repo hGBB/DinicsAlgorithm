@@ -7,7 +7,7 @@ import java.util.List;
  * {@inheritDoc}
  */
 public class ResidualNetImpl implements ResidualNet {
-    protected Edge[][] adjMatrix;
+    protected int[][] adjMatrix;
 
     /**
      * Standard constructor
@@ -15,20 +15,20 @@ public class ResidualNetImpl implements ResidualNet {
     public ResidualNetImpl() {
     }
 
-    public ResidualNetImpl(Edge[][] adjMatrix, NetImpl.Flow flow) {
-        this.adjMatrix = new Edge[adjMatrix.length][adjMatrix.length];
+    public ResidualNetImpl(int[][] adjMatrix, NetImpl.Flow flow) {
+        this.adjMatrix = new int[adjMatrix.length][adjMatrix.length];
         for (int i = 0; i < adjMatrix.length; i++) {
             for (int j = 0; j < adjMatrix.length; j++) {
-                if (adjMatrix[i][j] != null) {
+                if (adjMatrix[i][j] != 0) {
                     int flo = flow.getEdgeFlow(i, j);
-                    int capacity = adjMatrix[i][j].getCapacity();
+                    int capacity = adjMatrix[i][j];
                     if (capacity - flo > 0) {
-                        this.adjMatrix[i][j] = new Edge(i, j, capacity - flo);
+                        this.adjMatrix[i][j] = capacity - flo;
                     }
-                    if (flo > 0 && adjMatrix[j][i] == null) {
-                        this.adjMatrix[j][i] = new Edge(j, i, flo);
-                    } else if (flo > 0 && adjMatrix[j][i] != null) {
-                        this.adjMatrix[j][i].addCapacity(flo);
+                    if (flo > 0 && adjMatrix[j][i] == 0) {
+                        this.adjMatrix[j][i] = flo;
+                    } else if (flo > 0 && adjMatrix[j][i] != 0) {
+                        this.adjMatrix[j][i] += flo;
                     }
                 }
             }
@@ -41,7 +41,7 @@ public class ResidualNetImpl implements ResidualNet {
      */
     @Override
     public int getEdgeCapacity(int source, int target) {
-        return adjMatrix[source][target].getCapacity();
+        return adjMatrix[source][target];
     }
 
     /**
@@ -49,13 +49,7 @@ public class ResidualNetImpl implements ResidualNet {
      */
     @Override
     public void setEdgeCapacity(int source, int target, int capacity) {
-        if (capacity == 0) {
-            adjMatrix[source][target] = null;
-        } else if (adjMatrix[source][target] != null) {
-            adjMatrix[source][target].setCapacity(capacity);
-        } else {
-            adjMatrix[source][target] = new Edge(source, target, capacity);
-        }
+            adjMatrix[source][target] = capacity;
     }
 
     /**
@@ -63,7 +57,7 @@ public class ResidualNetImpl implements ResidualNet {
      */
     @Override
     public boolean isValidEdge(int source, int target, int capacity) {
-        return adjMatrix[source][target].getCapacity() == capacity;
+        return adjMatrix[source][target] == capacity;
     }
 
     /**
@@ -87,7 +81,7 @@ public class ResidualNetImpl implements ResidualNet {
                             if ((checkedNodes.isEmpty()
                                     || !checkedNodes.contains(j))
                                     && !currentlyChecking.contains(j)
-                                    && adjMatrix[j][i] != null) {
+                                    && adjMatrix[j][i] != 0) {
                                 nextChecking.add(j);
                             }
                         }
@@ -117,12 +111,11 @@ public class ResidualNetImpl implements ResidualNet {
     public int getSource() {
         for (int i = 0; i < adjMatrix.length; i++) {
             for (int j = 0; j < adjMatrix.length; j++) {
-                if (adjMatrix[i][j] != null) {
+                if (adjMatrix[i][j] != 0) {
                     return i;
                 }
             }
         }
-        System.out.print("nooooGetSource");
         return 0;
     }
 
@@ -134,7 +127,7 @@ public class ResidualNetImpl implements ResidualNet {
         // arrays start at 0 therefore we have to subtract 1 from the length.
         for (int i = adjMatrix.length - 1; i > 0; i--) {
             for (int j = 0; j < adjMatrix.length; j++) {
-                if (adjMatrix[j][i] != null) {
+                if (adjMatrix[j][i] != 0) {
                     return i;
                 }
             }
@@ -148,7 +141,7 @@ public class ResidualNetImpl implements ResidualNet {
      */
     @Override
     public boolean hasEdge(int source, int target) {
-        return adjMatrix[source][target] != null;
+        return adjMatrix[source][target] != 0;
     }
 
     /**
@@ -157,10 +150,10 @@ public class ResidualNetImpl implements ResidualNet {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (Edge[] anAdjMatrix : adjMatrix) {
+        for (int i = 0; i < adjMatrix.length; i++) {
             for (int j = 0; j < adjMatrix.length; j++) {
-                if (anAdjMatrix[j] != null) {
-                    sb.append(anAdjMatrix[j].getCapacity());
+                if (adjMatrix[i][j] != 0) {
+                    sb.append(adjMatrix[i][j]);
                 } else {
                     sb.append("0");
                 }

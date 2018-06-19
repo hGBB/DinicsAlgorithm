@@ -15,7 +15,7 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
      */
     public NiveauGraphImpl(ResidualNet resNet) {
         int size = resNet.getNumberOfNodes();
-        this.adjMatrix = new Edge[size][size];
+        this.adjMatrix = new int[size][size];
         LinkedList<Integer> allNodesOfAllLevels = new LinkedList<>();
         LinkedList<Integer> nodesOfCurrentLevel = new LinkedList<>();
         // manually add the root to the first current level
@@ -27,8 +27,7 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
             if (allNodesOfAllLevels.isEmpty()) {
                 for (int j = 0; j < size; j++) {
                     if (resNet.hasEdge(0, j)) {
-                        adjMatrix[0][j] =
-                                new Edge(0, j, resNet.getEdgeCapacity(0, j));
+                        adjMatrix[0][j] = resNet.getEdgeCapacity(0, j);
                         nodesOfCurrentLevel.add(j);
                     }
                 }
@@ -41,8 +40,7 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
                         // check all outgoing edges
                         if (!allNodesOfAllLevels.contains(k)
                                 && resNet.hasEdge(node, k)) {
-                            adjMatrix[node][k] = new Edge(node, k,
-                                    resNet.getEdgeCapacity(node, k));
+                            adjMatrix[node][k] = resNet.getEdgeCapacity(node, k);
                             nodesOfCurrentLevel.add(k);
                         }
                     }
@@ -50,7 +48,8 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
             }
             counter++;
             allNodesOfAllLevels.addAll(nodesOfCurrentLevel);
-            if (allNodesOfAllLevels.contains(sink) && sink == getNumberOfNodes() - 1) {
+            if (allNodesOfAllLevels.contains(sink)
+                    && sink == getNumberOfNodes() - 1) {
                 break;
             }
         }
@@ -75,7 +74,8 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
                     index[i] = counter;
 
                     for (int j = 0; j < length; j++) {
-                        if (adjMatrix[i][j] != null && !checkedNodes.contains(j) && !lastNodes.contains(j)) {
+                        if (adjMatrix[i][j] != 0 && !checkedNodes.contains(j)
+                                && !lastNodes.contains(j)) {
                             currentNodes.add(j);
                         }
                     }
@@ -96,36 +96,35 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
         } else {
             int max = index[getSink()];
             Integer[] result = new Integer[max];
-            LinkedList<Edge> edgesInNiveau = new LinkedList<>();
-            for (Edge[] edges : adjMatrix) {
-                for (Edge e : edges) {
-                    if (e != null && e.getCapacity() > 0) {
-                        edgesInNiveau.add(e);
+            LinkedList<Integer> edgesInNiveau = new LinkedList<>();
+            for (int i = 0; i < adjMatrix.length; i++) {
+                for (int j = 0; j < adjMatrix.length; j++) {
+                    if (adjMatrix[i][j] > 0) {
+                        edgesInNiveau.add(i);
                     }
                 }
             }
-            int emptyPositions = max- 1;
+            int emptyPositions = max - 1;
             int depth = 0;
+            int counter = 0;
             while (emptyPositions >= 0) {
-                for (Edge e : edgesInNiveau) {
-                    int edgePosition = e.getSource();
+                int source = edgesInNiveau.get(counter);
                     // if sink can be reached and the depth
                     // is higher than the prior node add to result
-                    if (isSinkReachableFromEdge(edgePosition)
-                            && index[edgePosition] == depth + 1) {
-                        result[depth] = edgePosition;
+                    if (isSinkReachableFromEdge(source)
+                            && index[source] == depth + 1) {
+                        result[depth] = source;
                         emptyPositions--;
                         depth++;
-                        break;
                     }
-                    if (hasEdge(e.getSource(), getSink())) {
+                    if (hasEdge(source, getSink())) {
                         result[max - 1] = getSink();
                         return result;
                     }
+                    counter++;
                 }
-            }
-            return null;
         }
+        return null;
     }
 
     private boolean isSinkReachableFromEdge(int position) {
@@ -145,7 +144,7 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
                             if ((checkedNodes.isEmpty()
                                     || !checkedNodes.contains(j))
                                     && !currentlyChecking.contains(j)
-                                    && adjMatrix[j][i] != null) {
+                                    && adjMatrix[j][i] > 0) {
                                 nextChecking.add(j);
                             }
                         }

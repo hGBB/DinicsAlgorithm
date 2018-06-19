@@ -52,7 +52,6 @@ public class MaxFlowImpl implements MaxFlow {
                 }
             }
         }
-
         do {
             Integer[] path = niveauGraph.findPath();
             int c_min = 0;
@@ -74,6 +73,11 @@ public class MaxFlowImpl implements MaxFlow {
 
     }
 
+    /**
+     * Helper method to revert an array
+     *
+     * @param array the content order will be reverted i.e 1->6 and 6->1
+     */
     private void revertArray(Integer[] array) {
         int arrayLength = array.length - 1;
         int placeholder;
