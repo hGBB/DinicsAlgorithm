@@ -20,12 +20,20 @@ public class MaxFlowImpl implements MaxFlow {
         boolean reachable;
         do {
             ResidualNet residualNet = net.createResidualNet();
+           // System.out.println(residualNet);
             reachable = residualNet.isSinkReachableFromSource();
             if (reachable) {
                 NiveauGraph niveauGraph = net.createNiveauGraph(residualNet);
-                computeBlockingFlow(niveauGraph);
-                System.out.println("yay");
-
+                System.out.println(niveauGraph);
+                int[][] flow = computeBlockingFlow(niveauGraph);
+                for (int i = 0; i < flow.length; i++) {
+                    for (int j = 0; j < flow.length; j++) {
+                        if (flow[i][j] > 0) {
+                            net.getFlow().addEdgeFlow(j, i, flow[i][j]);
+                        }
+                    }
+                }
+            //    System.out.println(niveauGraph);
             }
         } while (reachable);
     }
@@ -40,10 +48,10 @@ public class MaxFlowImpl implements MaxFlow {
         boolean reachable;
     }
 
-    private void computeBlockingFlow(NiveauGraph niveauGraph) {
+    private int[][] computeBlockingFlow(NiveauGraph niveauGraph) {
         int size = niveauGraph.getNumberOfNodes();
-        Integer[][] flow = new Integer[size][size];
-        Integer[][] capacity = new Integer[size][size];
+        int[][] flow = new int[size][size];
+        int[][] capacity = new int[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 flow[i][j] = 0;
@@ -66,6 +74,7 @@ public class MaxFlowImpl implements MaxFlow {
                 flow[path[i]][path[i + 1]] += c_min;
             }
         } while (niveauGraph.isSinkReachableFromSource());
+        return flow;
     }
 
     /**
@@ -74,12 +83,12 @@ public class MaxFlowImpl implements MaxFlow {
      * @param array the content order will be reverted i.e 1->6 and 6->1
      */
     private void revertArray(Integer[] array) {
-        int arrayLength = array.length - 1;
+        int arrayLength = array.length;
         int placeholder;
-        for (int i = 0; i < arrayLength / 2; i++) {
+        for (int i = 0; i < (arrayLength / 2); i++) {
             placeholder = array[i];
-            array[i] = array[arrayLength - i];
-            array[arrayLength - i] = placeholder;
+            array[i] = array[arrayLength - i - 1];
+            array[arrayLength - i - 1] = placeholder;
         }
     }
 }
