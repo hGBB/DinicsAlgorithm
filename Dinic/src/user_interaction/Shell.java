@@ -13,14 +13,13 @@ public final class Shell {
         BufferedReader stdin
                 = new BufferedReader(new InputStreamReader(System.in));
         execute(stdin);
-
     }
 
     private static void execute(BufferedReader stdin) throws IOException {
         boolean quit = false;
         Net net = null;
         ResidualNet resNet = null;
-        NiveauGraph niveauGraph = null;
+        NiveauGraph niveauGraph;
         MaxFlow maxFlow = new MaxFlowImpl();
         while (!quit) {
             System.out.print("dinic> ");
@@ -101,7 +100,6 @@ public final class Shell {
         }
     }
 
-
     private static LinkedList<String> createInputList(String filename)
             throws IOException {
         LinkedList<String> lines = new LinkedList<>();
@@ -166,18 +164,14 @@ public final class Shell {
             int source = input.get(i)[0];
             int target = input.get(i)[1];
             int capacity = input.get(i)[2];
-
             if (source < 0 || source > stayInRange || target < 0
                     || target > stayInRange || capacity < 0) {
                 error("The input file is broken.");
                 return false;
             }
         }
-
-
         return true;
     }
-
 
     /**
      * Help-method to check if the User input contains
@@ -206,10 +200,9 @@ public final class Shell {
                 return true;
             }
         }
-        error("Input is not correct. Try 'Help'" +
-                " for a list of viable commands");
+        error("Input is not correct. Try 'Help'"
+                + " for a list of viable commands");
         return false;
-
     }
 
     /**

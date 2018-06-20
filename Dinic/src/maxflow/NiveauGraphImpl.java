@@ -1,6 +1,8 @@
 package maxflow;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * {@inheritDoc}
@@ -142,22 +144,7 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
                         }
                         bestChoice = 0;
                     }
-
                 }
-
-                // if sink can be reached and the depth
-                // is higher than the prior node add to result
-                   /* if (isSinkReachableFromEdge(source)
-                            && index[source] == depth + 1) {
-                        result[depth] = source;
-                        emptyPositions--;
-                        depth++;
-                        counter = 3;
-                        if (hasEdge(source, getSink())) {
-                            result[max - 1] = getSink();
-                            return result;
-                        }
-                    } */
                 counter++;
             }
         }

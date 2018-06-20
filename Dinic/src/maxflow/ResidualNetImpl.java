@@ -35,7 +35,6 @@ public class ResidualNetImpl implements ResidualNet {
         }
     }
 
-
     /**
      * {@inheritDoc}
      */
@@ -95,7 +94,6 @@ public class ResidualNetImpl implements ResidualNet {
         }
     }
 
-
     /**
      * {@inheritDoc}
      */
@@ -126,13 +124,12 @@ public class ResidualNetImpl implements ResidualNet {
     public int getSink() {
         // arrays start at 0 therefore we have to subtract 1 from the length.
         for (int i = adjMatrix.length - 1; i > 0; i--) {
-            for (int j = 0; j < adjMatrix.length; j++) {
-                if (adjMatrix[j][i] != 0) {
+            for (int[] anAdjMatrix : adjMatrix) {
+                if (anAdjMatrix[i] != 0) {
                     return i;
                 }
             }
         }
-        System.out.print("noooo getSink");
         return 0;
     }
 
@@ -150,10 +147,10 @@ public class ResidualNetImpl implements ResidualNet {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < adjMatrix.length; i++) {
+        for (int[] anAdjMatrix : adjMatrix) {
             for (int j = 0; j < adjMatrix.length; j++) {
-                if (adjMatrix[i][j] != 0) {
-                    sb.append(adjMatrix[i][j]);
+                if (anAdjMatrix[j] != 0) {
+                    sb.append(anAdjMatrix[j]);
                 } else {
                     sb.append("0");
                 }

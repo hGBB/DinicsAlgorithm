@@ -6,11 +6,7 @@ import java.util.LinkedList;
  * {@inheritDoc}
  */
 public class NetImpl extends ResidualNetImpl implements Net {
-    private Flow flow;
-
-    public NetImpl() {
-
-    }
+    private final Flow flow;
 
     /**
      * Constructor for a new net
@@ -67,8 +63,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
      * {@inheritDoc}
      */
     public class Flow implements Net.Flow {
-        // TODO flow is in capacity not in flow
-        private int[][] flowMatrix;
+        private final int[][] flowMatrix;
 
         public Flow() {
             flowMatrix = new int[adjMatrix.length][adjMatrix.length];
@@ -108,7 +103,6 @@ public class NetImpl extends ResidualNetImpl implements Net {
             } else {
                 System.out.println("Error! ladida");
             }
-
         }
 
         /**
@@ -135,7 +129,6 @@ public class NetImpl extends ResidualNetImpl implements Net {
                     }
                 }
             }
-            // TODO overwork this and check for correct
             for (int i = 0; i < size; i++) {
                 int incoming = 0;
                 int outgoing = 0;
@@ -158,7 +151,6 @@ public class NetImpl extends ResidualNetImpl implements Net {
          */
         @Override
         public void clear() {
-
             for (int i = 0; i < adjMatrix.length; i++) {
                 for (int j = 0; j < adjMatrix.length; j++) {
                     if (adjMatrix[i][j] != 0) {
@@ -174,8 +166,8 @@ public class NetImpl extends ResidualNetImpl implements Net {
         @Override
         public int getTotalFlow() {
             int flow = 0;
-            for (int i = 0; i < flowMatrix.length; i++) {
-                flow += flowMatrix[i][getSink()];
+            for (int[] aFlowMatrix : flowMatrix) {
+                flow += aFlowMatrix[getSink()];
             }
             return flow;
         }
@@ -200,5 +192,4 @@ public class NetImpl extends ResidualNetImpl implements Net {
             return sb.toString().trim();
         }
     }
-
 }

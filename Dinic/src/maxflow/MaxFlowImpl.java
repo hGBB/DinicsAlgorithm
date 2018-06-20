@@ -9,7 +9,6 @@ public class MaxFlowImpl implements MaxFlow {
      * Constructor
      */
     public MaxFlowImpl() {
-
     }
 
     /**
@@ -58,27 +57,27 @@ public class MaxFlowImpl implements MaxFlow {
                 }
             }
         }
-        int c_min = 99999;
+        int minimumCapacity = 99999;
         do {
             Integer[] path = niveauGraph.findPath();
             for (int i = 0; i < path.length - 1; i++) {
-                if (capacity[path[i]][path[i + 1]] < c_min) {
-                    c_min = capacity[path[i]][path[i + 1]];
+                if (capacity[path[i]][path[i + 1]] < minimumCapacity) {
+                    minimumCapacity = capacity[path[i]][path[i + 1]];
                 }
                 niveauGraph.setEdgeCapacity(path[i], path[i + 1], 0);
             }
             revertArray(path);
             for (int i = 0; i < path.length - 1; i++) {
-                flow[path[i]][path[i + 1]] += c_min;
+                flow[path[i]][path[i + 1]] += minimumCapacity;
             }
         } while (niveauGraph.isSinkReachableFromSource());
         return flow;
     }
 
     /**
-     * Helper method to revert an array
+     * Helper method to revert an array like 1234 -> 4321
      *
-     * @param array the content order will be reverted i.e 1->6 and 6->1
+     * @param array the content order will be reverted
      */
     private void revertArray(Integer[] array) {
         int arrayLength = array.length;
