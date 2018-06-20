@@ -107,23 +107,55 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
             int emptyPositions = max - 1;
             int depth = 0;
             int counter = 0;
+            int bestChoice = 0;
+            int bestChoiceCapacity = 0;
             while (emptyPositions >= 0) {
                 int source = edgesInNiveau.get(counter);
-                    // if sink can be reached and the depth
-                    // is higher than the prior node add to result
-                    if (isSinkReachableFromEdge(source)
-                            && index[source] == depth + 1) {
+                if (depth == 0) {
+                    if (isSinkReachableFromEdge(source) && index[source] == depth + 1) {
                         result[depth] = source;
                         emptyPositions--;
                         depth++;
                         counter = 0;
+                    }
+                } else if (depth >= 1) {
+                    if (isSinkReachableFromEdge(source) && index[source] == depth + 1) {
+                        int currentCapacity = getEdgeCapacity(result[depth - 1], source);
+                        if (bestChoiceCapacity < currentCapacity) {
+                            bestChoice = source;
+                            bestChoiceCapacity = currentCapacity;
+                        }
+                    }
+                    if (counter == edgesInNiveau.size() - 1) {
+                        result[depth] = bestChoice;
+                        emptyPositions--;
+                        depth++;
+                        counter = 0;
+                        bestChoiceCapacity = 0;
+                        if (hasEdge(bestChoice, getSink())) {
+                            result[max - 1] = getSink();
+                            return result;
+                        }
+                        bestChoice = 0;
+                    }
+
+                }
+
+                // if sink can be reached and the depth
+                // is higher than the prior node add to result
+                   /* if (isSinkReachableFromEdge(source)
+                            && index[source] == depth + 1) {
+                        result[depth] = source;
+                        emptyPositions--;
+                        depth++;
+                        counter = 3;
                         if (hasEdge(source, getSink())) {
                             result[max - 1] = getSink();
                             return result;
                         }
-                    }
-                    counter++;
-                }
+                    } */
+                counter++;
+            }
         }
         return null;
     }
