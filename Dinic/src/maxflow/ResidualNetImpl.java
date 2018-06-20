@@ -8,6 +8,8 @@ import java.util.List;
  */
 public class ResidualNetImpl implements ResidualNet {
     protected int[][] adjMatrix;
+    protected static final int EMPTY_CAPACITY = 0;
+
 
     /**
      * Standard constructor
@@ -19,15 +21,17 @@ public class ResidualNetImpl implements ResidualNet {
         this.adjMatrix = new int[adjMatrix.length][adjMatrix.length];
         for (int i = 0; i < adjMatrix.length; i++) {
             for (int j = 0; j < adjMatrix.length; j++) {
-                if (adjMatrix[i][j] != 0) {
+                if (adjMatrix[i][j] != EMPTY_CAPACITY) {
                     int flo = flow.getEdgeFlow(i, j);
                     int capacity = adjMatrix[i][j];
-                    if (capacity - flo > 0) {
+                    if (capacity - flo > EMPTY_CAPACITY) {
                         this.adjMatrix[i][j] = capacity - flo;
                     }
-                    if (flo > 0 && adjMatrix[j][i] == 0) {
+                    if (flo > EMPTY_CAPACITY
+                            && adjMatrix[j][i] == EMPTY_CAPACITY) {
                         this.adjMatrix[j][i] = flo;
-                    } else if (flo > 0 && adjMatrix[j][i] != 0) {
+                    } else if (flo > EMPTY_CAPACITY
+                            && adjMatrix[j][i] != EMPTY_CAPACITY) {
                         this.adjMatrix[j][i] += flo;
                     }
                 }
@@ -76,11 +80,13 @@ public class ResidualNetImpl implements ResidualNet {
                     if (i == 0) {
                         return true;
                     } else {
+                        // redundant to check if the sink is reachable from the
+                        // sink -> subtract 1
                         for (int j = 0; j < adjMatrix.length - 1; j++) {
                             if ((checkedNodes.isEmpty()
                                     || !checkedNodes.contains(j))
                                     && !currentlyChecking.contains(j)
-                                    && adjMatrix[j][i] != 0) {
+                                    && adjMatrix[j][i] != EMPTY_CAPACITY) {
                                 nextChecking.add(j);
                             }
                         }
@@ -109,7 +115,7 @@ public class ResidualNetImpl implements ResidualNet {
     public int getSource() {
         for (int i = 0; i < adjMatrix.length; i++) {
             for (int j = 0; j < adjMatrix.length; j++) {
-                if (adjMatrix[i][j] != 0) {
+                if (adjMatrix[i][j] != EMPTY_CAPACITY) {
                     return i;
                 }
             }
@@ -125,7 +131,7 @@ public class ResidualNetImpl implements ResidualNet {
         // arrays start at 0 therefore we have to subtract 1 from the length.
         for (int i = adjMatrix.length - 1; i > 0; i--) {
             for (int[] anAdjMatrix : adjMatrix) {
-                if (anAdjMatrix[i] != 0) {
+                if (anAdjMatrix[i] != EMPTY_CAPACITY) {
                     return i;
                 }
             }
@@ -138,7 +144,7 @@ public class ResidualNetImpl implements ResidualNet {
      */
     @Override
     public boolean hasEdge(int source, int target) {
-        return adjMatrix[source][target] > 0;
+        return adjMatrix[source][target] > EMPTY_CAPACITY;
     }
 
     /**
@@ -149,11 +155,12 @@ public class ResidualNetImpl implements ResidualNet {
         StringBuilder sb = new StringBuilder();
         for (int[] anAdjMatrix : adjMatrix) {
             for (int j = 0; j < adjMatrix.length; j++) {
-                if (anAdjMatrix[j] != 0) {
+                if (anAdjMatrix[j] != EMPTY_CAPACITY) {
                     sb.append(anAdjMatrix[j]);
                 } else {
                     sb.append("0");
                 }
+                // adds a whitespace if it's not the end of the line
                 if (j < adjMatrix.length - 1) {
                     sb.append(" ");
                 }

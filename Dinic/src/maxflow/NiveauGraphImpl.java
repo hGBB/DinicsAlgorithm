@@ -13,7 +13,7 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
     /**
      * Constructor
      *
-     * @param resNet a residual net out of which the niveau graph is calculated
+     * @param resNet a residual net out of which the niveau graph is formed
      */
     public NiveauGraphImpl(ResidualNet resNet) {
         int size = resNet.getNumberOfNodes();
@@ -56,10 +56,10 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
                 break;
             }
         }
-        createIndexes(source, sink);
+        createIndex(source, sink);
     }
 
-    private void createIndexes(int source, int sink) {
+    private void createIndex(int source, int sink) {
         int counter = 0;
         int length = adjMatrix.length;
         index = new int[length];
@@ -77,7 +77,8 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
                     index[i] = counter;
 
                     for (int j = 0; j < length; j++) {
-                        if (adjMatrix[i][j] != 0 && !checkedNodes.contains(j)
+                        if (adjMatrix[i][j] != EMPTY_CAPACITY
+                                && !checkedNodes.contains(j)
                                 && !lastNodes.contains(j)) {
                             currentNodes.add(j);
                         }
@@ -111,7 +112,7 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
             int depth = 0;
             int counter = 0;
             int bestChoice = 0;
-            int bestChoiceCapacity = 0;
+            int bestChoiceCapacity = EMPTY_CAPACITY;
             while (emptyPositions >= 0) {
                 int source = edgesInNiveau.get(counter);
                 if (depth == 0) {
@@ -137,7 +138,7 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
                         emptyPositions--;
                         depth++;
                         counter = 0;
-                        bestChoiceCapacity = 0;
+                        bestChoiceCapacity = EMPTY_CAPACITY;
                         if (hasEdge(bestChoice, getSink())) {
                             result[max - 1] = getSink();
                             return result;
@@ -168,7 +169,7 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
                             if ((checkedNodes.isEmpty()
                                     || !checkedNodes.contains(j))
                                     && !currentlyChecking.contains(j)
-                                    && adjMatrix[j][i] > 0) {
+                                    && adjMatrix[j][i] > EMPTY_CAPACITY) {
                                 nextChecking.add(j);
                             }
                         }

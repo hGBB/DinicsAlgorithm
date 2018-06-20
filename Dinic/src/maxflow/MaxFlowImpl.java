@@ -4,7 +4,8 @@ package maxflow;
  * {@inheritDoc}
  */
 public class MaxFlowImpl implements MaxFlow {
-
+    private static final int MINIMUM_CAPACITY_DUMMY = 999999999;
+    private static final int EMPTY_CAPACITY = 0;
     /**
      * Constructor
      */
@@ -26,7 +27,7 @@ public class MaxFlowImpl implements MaxFlow {
                 int[][] flow = computeBlockingFlow(niveauGraph);
                 for (int i = 0; i < flow.length; i++) {
                     for (int j = 0; j < flow.length; j++) {
-                        if (flow[i][j] > 0) {
+                        if (flow[i][j] > EMPTY_CAPACITY) {
                             net.getFlow().addEdgeFlow(j, i, flow[i][j]);
                         }
                     }
@@ -51,13 +52,13 @@ public class MaxFlowImpl implements MaxFlow {
         int[][] capacity = new int[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                flow[i][j] = 0;
+                flow[i][j] = EMPTY_CAPACITY;
                 if (niveauGraph.hasEdge(i, j)) {
                     capacity[i][j] = niveauGraph.getEdgeCapacity(i, j);
                 }
             }
         }
-        int minimumCapacity = 99999;
+        int minimumCapacity = MINIMUM_CAPACITY_DUMMY;
         do {
             Integer[] path = niveauGraph.findPath();
             for (int i = 0; i < path.length - 1; i++) {

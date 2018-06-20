@@ -22,7 +22,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
         for (int i = 0; i < adjMatrix.length; i++) {
             for (int j = 0; j < adjMatrix.length; j++) {
                 // fill matrix
-                adjMatrix[i][j] = 0;
+                adjMatrix[i][j] = EMPTY_CAPACITY;
             }
         }
         for (int i = 1; i < input.size(); i++) {
@@ -69,7 +69,7 @@ public class NetImpl extends ResidualNetImpl implements Net {
             flowMatrix = new int[adjMatrix.length][adjMatrix.length];
             for (int i = 0; i < flowMatrix.length; i++) {
                 for (int j = 0; j < flowMatrix.length; j++) {
-                    flowMatrix[i][j] = 0;
+                    flowMatrix[i][j] = EMPTY_CAPACITY;
                 }
             }
         }
@@ -79,7 +79,6 @@ public class NetImpl extends ResidualNetImpl implements Net {
          */
         @Override
         public int getEdgeFlow(int source, int target) {
-            // shift to the left because arrays start at 0
             return flowMatrix[source][target];
         }
 
@@ -88,7 +87,6 @@ public class NetImpl extends ResidualNetImpl implements Net {
          */
         @Override
         public void addEdgeFlow(int source, int target, int flowAdd) {
-            // shift to the left because arrays start at 0
             flowMatrix[source][target] += flowAdd;
         }
 
@@ -114,16 +112,17 @@ public class NetImpl extends ResidualNetImpl implements Net {
             for (int i = 0; i < size; i++) {
                 // nothing flows into the source ( -> first column always 0)
                 // nothing flows out of the sink ( -> last row always 0)
-                if ((adjMatrix[i][0] != 0 && flowMatrix[i][0] > 0)
-                        || (adjMatrix[size - 1][i] != 0
-                        && flowMatrix[size - 1][i] > 0)) {
+                if ((adjMatrix[i][0] != EMPTY_CAPACITY
+                        && flowMatrix[i][0] > EMPTY_CAPACITY)
+                        || (adjMatrix[size - 1][i] != EMPTY_CAPACITY
+                        && flowMatrix[size - 1][i] > EMPTY_CAPACITY)) {
                     return false;
                 }
             }
             // not possible for and edge to have a higher flow than capacity
             for (int i = 0; i < size; i++) {
                 for (int j = 0; j < size; j++) {
-                    if (flowMatrix[i][j] != 0 && flowMatrix[i][j]
+                    if (flowMatrix[i][j] != EMPTY_CAPACITY && flowMatrix[i][j]
                             > adjMatrix[i][j]) {
                         return false;
                     }
@@ -153,8 +152,8 @@ public class NetImpl extends ResidualNetImpl implements Net {
         public void clear() {
             for (int i = 0; i < adjMatrix.length; i++) {
                 for (int j = 0; j < adjMatrix.length; j++) {
-                    if (adjMatrix[i][j] != 0) {
-                        flowMatrix[i][j] = 0;
+                    if (adjMatrix[i][j] != EMPTY_CAPACITY) {
+                        flowMatrix[i][j] = EMPTY_CAPACITY;
                     }
                 }
             }
@@ -177,8 +176,8 @@ public class NetImpl extends ResidualNetImpl implements Net {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < adjMatrix.length; i++) {
                 for (int j = 0; j < adjMatrix.length; j++) {
-                    if (adjMatrix[i][j] != 0) {
-                        if (flowMatrix[i][j] != 0) {
+                    if (adjMatrix[i][j] != EMPTY_CAPACITY) {
+                        if (flowMatrix[i][j] != EMPTY_CAPACITY) {
                             sb.append("(").append(i + 1)
                                     .append(", ").append(j + 1)
                                     .append(") (")
