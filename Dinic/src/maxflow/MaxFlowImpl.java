@@ -21,7 +21,6 @@ public class MaxFlowImpl implements MaxFlow {
         boolean reachable;
         do {
             ResidualNet residualNet = net.createResidualNet();
-           // System.out.println(residualNet);
             reachable = residualNet.isSinkReachableFromSource();
             if (reachable) {
                 NiveauGraph niveauGraph = net.createNiveauGraph(residualNet);
@@ -43,8 +42,31 @@ public class MaxFlowImpl implements MaxFlow {
      */
     @Override
     public void step(Net net) {
-        int size = net.getNumberOfNodes();
-        boolean reachable;
+        ResidualNet residualNet = net.createResidualNet();
+        NiveauGraph niveauGraph = net.createNiveauGraph(residualNet);
+        int size = niveauGraph.getNumberOfNodes();
+        int[][] flow = new int[size][size];
+        int[][] capacity = new int[size][size];
+        Integer[] path = niveauGraph.findPath();
+        int minimumCapacity = MINIMUM_CAPACITY_DUMMY;
+        for (int i = 0; i < path.length - 1; i++) {
+            if (capacity[path[i]][path[i + 1]] < minimumCapacity) {
+                minimumCapacity = capacity[path[i]][path[i + 1]];
+            }
+            niveauGraph.setEdgeCapacity(path[i], path[i + 1], 0);
+        }
+        revertArray(path);
+        for (int i = 0; i < path.length - 1; i++) {
+            flow[path[i]][path[i + 1]] += minimumCapacity;
+        }
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                flow[i][j] = EMPTY_CAPACITY;
+                if (niveauGraph.hasEdge(i, j)) {
+                    capacity[i][j] = niveauGraph.getEdgeCapacity(i, j);
+                }
+            }
+        }
     }
 
     private int[][] computeBlockingFlow(NiveauGraph niveauGraph) {
