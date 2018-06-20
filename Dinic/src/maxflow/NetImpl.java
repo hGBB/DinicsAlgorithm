@@ -9,9 +9,9 @@ public class NetImpl extends ResidualNetImpl implements Net {
     private final Flow flow;
 
     /**
-     * Constructor for a new net
+     * Constructor for a new net.
      *
-     * @param input a list out of which a net is created
+     * @param input a list out of which a net is created.
      */
     public NetImpl(LinkedList<int[]> input) {
         // create matrix with size given in the input's first line
@@ -65,6 +65,9 @@ public class NetImpl extends ResidualNetImpl implements Net {
     public class Flow implements Net.Flow {
         private final int[][] flowMatrix;
 
+        /**
+         * Standard constructor.
+         */
         public Flow() {
             flowMatrix = new int[adjMatrix.length][adjMatrix.length];
             for (int i = 0; i < flowMatrix.length; i++) {
@@ -171,6 +174,9 @@ public class NetImpl extends ResidualNetImpl implements Net {
             return flow;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
