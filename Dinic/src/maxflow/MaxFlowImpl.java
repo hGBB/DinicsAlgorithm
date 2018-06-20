@@ -32,11 +32,8 @@ public class MaxFlowImpl implements MaxFlow {
                         }
                     }
                 }
-            //    System.out.println(niveauGraph);
             }
         } while (reachable);
-            System.out.println( net.getFlow().getTotalFlow());
-
     }
 
 

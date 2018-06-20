@@ -55,14 +55,16 @@ public final class Shell {
                     case 'm':
                         if (net != null) {
                             maxFlow.computeMaxFlow(net);
-                            System.out.println("Maximum flow is: " );
+                            System.out.println("Maximum flow is: " + net.getFlow().getTotalFlow());
                         } else {
                             error("ladida");
                         }
                         break;
                     case 'p':
                         if (net != null) {
-                            System.out.println(net.getFlow().getTotalFlow());
+                            maxFlow.computeMaxFlow(net);
+                            System.out.println("Maximum Flow is: " + net.getFlow().getTotalFlow());
+                            System.out.println(net.getFlow());
                         } else {
                             error("Initialize a net first!");
                         }
