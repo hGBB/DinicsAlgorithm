@@ -40,7 +40,8 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
                         // check all outgoing edges
                         if (!allNodesOfAllLevels.contains(k)
                                 && resNet.hasEdge(node, k)) {
-                            adjMatrix[node][k] = resNet.getEdgeCapacity(node, k);
+                            adjMatrix[node][k] = resNet
+                                    .getEdgeCapacity(node, k);
                             nodesOfCurrentLevel.add(k);
                         }
                     }
@@ -112,15 +113,18 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
             while (emptyPositions >= 0) {
                 int source = edgesInNiveau.get(counter);
                 if (depth == 0) {
-                    if (isSinkReachableFromEdge(source) && index[source] == depth + 1) {
+                    if (isSinkReachableFromEdge(source)
+                            && index[source] == depth + 1) {
                         result[depth] = source;
                         emptyPositions--;
                         depth++;
                         counter = 0;
                     }
                 } else if (depth >= 1) {
-                    if (isSinkReachableFromEdge(source) && index[source] == depth + 1) {
-                        int currentCapacity = getEdgeCapacity(result[depth - 1], source);
+                    if (isSinkReachableFromEdge(source) && index[source]
+                            == depth + 1) {
+                        int currentCapacity =
+                                getEdgeCapacity(result[depth - 1], source);
                         if (bestChoiceCapacity < currentCapacity) {
                             bestChoice = source;
                             bestChoiceCapacity = currentCapacity;
