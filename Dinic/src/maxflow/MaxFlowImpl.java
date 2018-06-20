@@ -24,7 +24,6 @@ public class MaxFlowImpl implements MaxFlow {
             reachable = residualNet.isSinkReachableFromSource();
             if (reachable) {
                 NiveauGraph niveauGraph = net.createNiveauGraph(residualNet);
-                System.out.println(niveauGraph);
                 int[][] flow = computeBlockingFlow(niveauGraph);
                 for (int i = 0; i < flow.length; i++) {
                     for (int j = 0; j < flow.length; j++) {
@@ -36,6 +35,8 @@ public class MaxFlowImpl implements MaxFlow {
             //    System.out.println(niveauGraph);
             }
         } while (reachable);
+            System.out.println( net.getFlow().getTotalFlow());
+
     }
 
 

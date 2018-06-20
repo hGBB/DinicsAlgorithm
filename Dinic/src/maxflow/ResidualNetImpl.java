@@ -141,7 +141,7 @@ public class ResidualNetImpl implements ResidualNet {
      */
     @Override
     public boolean hasEdge(int source, int target) {
-        return adjMatrix[source][target] != 0;
+        return adjMatrix[source][target] > 0;
     }
 
     /**

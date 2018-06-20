@@ -116,10 +116,11 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
                         result[depth] = source;
                         emptyPositions--;
                         depth++;
-                    }
-                    if (hasEdge(source, getSink())) {
-                        result[max - 1] = getSink();
-                        return result;
+                        counter = 0;
+                        if (hasEdge(source, getSink())) {
+                            result[max - 1] = getSink();
+                            return result;
+                        }
                     }
                     counter++;
                 }
