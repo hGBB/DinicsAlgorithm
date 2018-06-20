@@ -6,6 +6,7 @@ package maxflow;
 public class MaxFlowImpl implements MaxFlow {
     private static final int MINIMUM_CAPACITY_DUMMY = 999999999;
     private static final int EMPTY_CAPACITY = 0;
+
     /**
      * Constructor
      */
@@ -76,9 +77,9 @@ public class MaxFlowImpl implements MaxFlow {
     }
 
     /**
-     * Helper method to revert an array like 1234 -> 4321
+     * Helper method to revert an array like i.e. 1234 -> 4321.
      *
-     * @param array the content order will be reverted
+     * @param array the content order will be reverted.
      */
     private void revertArray(Integer[] array) {
         int arrayLength = array.length;

@@ -13,7 +13,7 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
     /**
      * Constructor
      *
-     * @param resNet a residual net out of which the niveau graph is formed
+     * @param resNet a residual net out of which the NiveauGraph is calculated.
      */
     public NiveauGraphImpl(ResidualNet resNet) {
         int size = resNet.getNumberOfNodes();

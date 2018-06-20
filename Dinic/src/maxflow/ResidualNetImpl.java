@@ -12,11 +12,17 @@ public class ResidualNetImpl implements ResidualNet {
 
 
     /**
-     * Standard constructor
+     * Standard constructor.
      */
     public ResidualNetImpl() {
     }
 
+    /**
+     * Constructor for a ResidualNet.
+     *
+     * @param adjMatrix A net.
+     * @param flow The flow of the given net.
+     */
     public ResidualNetImpl(int[][] adjMatrix, NetImpl.Flow flow) {
         this.adjMatrix = new int[adjMatrix.length][adjMatrix.length];
         for (int i = 0; i < adjMatrix.length; i++) {
@@ -155,11 +161,7 @@ public class ResidualNetImpl implements ResidualNet {
         StringBuilder sb = new StringBuilder();
         for (int[] anAdjMatrix : adjMatrix) {
             for (int j = 0; j < adjMatrix.length; j++) {
-                if (anAdjMatrix[j] != EMPTY_CAPACITY) {
                     sb.append(anAdjMatrix[j]);
-                } else {
-                    sb.append("0");
-                }
                 // adds a whitespace if it's not the end of the line
                 if (j < adjMatrix.length - 1) {
                     sb.append(" ");
