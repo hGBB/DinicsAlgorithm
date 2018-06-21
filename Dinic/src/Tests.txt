@@ -20,6 +20,13 @@ Error! The specified file does not exist!
 dinic> net datastr1.flow
 dinic> flow datastr1.net
 Error! The given flow is not valid!
+dinic> n brokeninput1.net
+Error! The input file is broken.
+dinic> n brokeninput2.net
+Error! The input file is broken.
+dinic> n brokeninput3.net
+Error! The Input File does not suit the Program! Please check if it fits the convention*first line:*ONE NUMBER *every following line:*THE NUMBERS DIVIDED BY A WHITESPACE
+dinic>
 dinic> n datastr1.net
 dinic> d
 0 19 0 87 28 93 0
