@@ -100,9 +100,6 @@ public class NetImpl extends ResidualNetImpl implements Net {
         public void setEdgeFlow(int source, int target, int flow) {
             if (adjMatrix[source][target] >= flow) {
                 flowMatrix[source][target] = flow;
-                // Todo move this error to shell!
-            } else {
-                System.out.println("Error! ladida");
             }
         }
 
@@ -141,7 +138,6 @@ public class NetImpl extends ResidualNetImpl implements Net {
                     }
                 }
                 if (incoming != outgoing) {
-                    System.out.print("kirchhoff is mad!");
                     return false;
                 }
             }

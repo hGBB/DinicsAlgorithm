@@ -81,6 +81,10 @@ public final class Shell {
                                     net.getFlow().setEdgeFlow(inp[0],
                                             inp[1], inp[2]);
                                 }
+                                if (!net.getFlow().isValidFlow()) {
+                                    net.getFlow().clear();
+                                    error("The given flow is not valid!");
+                                }
                             }
                         }
                         break;
@@ -283,6 +287,7 @@ public final class Shell {
                 }
             }
             tokens[1] = secondParamater.toString();
+            tokens = new String[]{tokens[0], tokens[1]};
         }
         return tokens;
     }

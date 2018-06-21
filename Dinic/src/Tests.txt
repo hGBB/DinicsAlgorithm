@@ -1,1 +1,76 @@
-ladida
+Connected to the target VM, address: '127.0.0.1:37233', transport: 'socket'
+dinic> c
+Error! Initialize a net first!
+dinic> m
+Error! Initialize a net first!
+dinic> p
+Error! Initialize a net first!
+dinic> n
+Error! Input is not correct. Try 'Help' for a list of viable commands
+dinic> f
+Error! Input is not correct. Try 'Help' for a list of viable commands
+dinic> n
+Error! Input is not correct. Try 'Help' for a list of viable commands
+dinic> n DATASTR1.NET
+Error! The specified file does not exist!
+dinic> n datastr.net
+Error! The specified file does not exist!
+dinic> n dwasdkeg1346735@@@
+Error! The specified file does not exist!
+dinic> n datastr1.net
+dinic> d
+0 19 0 87 28 93 0
+0 0 89 49 55 60 1
+0 0 0 0 0 44 73
+0 0 47 0 33 3 35
+0 0 49 0 0 0 0
+0 0 0 0 61 0 0
+0 0 0 0 0 0 0
+dinic> f datast r1.flow
+dinic> c
+(1, 2) (8/19)
+(1, 4) (32/87)
+(1, 6) (21/93)
+(2, 6) (7/60)
+(2, 7) (1/1)
+(3, 7) (60/73)
+(4, 3) (32/47)
+(5, 3) (28/49)
+(6, 5) (28/61)
+dinic> r
+Residual net is:
+0 11 0 55 28 72 0
+8 0 89 49 55 53 0
+0 0 0 32 28 44 13
+32 0 15 0 33 3 35
+0 0 21 0 0 28 0
+21 7 0 0 33 0 0
+0 1 60 0 0 0 0
+dinic> s
+Niveau graph is:
+0 11 0 55 28 72 0
+0 0 89 0 0 0 0
+0 0 0 0 0 0 0
+0 0 15 0 0 0 35
+0 0 21 0 0 0 0
+0 0 0 0 0 0 0
+0 0 0 0 0 0 0
+dinic> m
+Maximum flow is: 109
+dinic> p
+Maximum flow is: 109
+(1, 2) (8/19)
+(1, 4) (67/87)
+(1, 5) (13/28)
+(1, 6) (21/93)
+(2, 6) (7/60)
+(2, 7) (1/1)
+(3, 7) (73/73)
+(4, 3) (32/47)
+(4, 7) (35/35)
+(5, 3) (41/49)
+(6, 5) (28/61)
+dinic> q
+Disconnected from the target VM, address: '127.0.0.1:43431', transport: 'socket'
+
+Process finished with exit code 0
