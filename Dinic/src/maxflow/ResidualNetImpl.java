@@ -10,7 +10,6 @@ public class ResidualNetImpl implements ResidualNet {
     protected int[][] adjMatrix;
     protected static final int EMPTY_CAPACITY = 0;
 
-
     /**
      * Standard constructor.
      */

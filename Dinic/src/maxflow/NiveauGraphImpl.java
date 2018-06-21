@@ -59,37 +59,6 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
         createIndex(source, sink);
     }
 
-    private void createIndex(int source, int sink) {
-        int counter = 0;
-        int length = adjMatrix.length;
-        index = new int[length];
-        LinkedList<Integer> checkedNodes = new LinkedList<>();
-        LinkedList<Integer> lastNodes = new LinkedList<>();
-        LinkedList<Integer> currentNodes = new LinkedList<>();
-        // add the source
-        currentNodes.add(source);
-        while (!checkedNodes.contains(sink)) {
-            counter++;
-            lastNodes.addAll(currentNodes);
-            currentNodes.clear();
-            for (Integer i : lastNodes) {
-                if (!checkedNodes.contains(i)) {
-                    index[i] = counter;
-
-                    for (int j = 0; j < length; j++) {
-                        if (adjMatrix[i][j] != EMPTY_CAPACITY
-                                && !checkedNodes.contains(j)
-                                && !lastNodes.contains(j)) {
-                            currentNodes.add(j);
-                        }
-                    }
-                }
-            }
-            checkedNodes.addAll(lastNodes);
-            lastNodes.clear();
-        }
-    }
-
     /**
      * {@inheritDoc}
      */
@@ -152,6 +121,48 @@ public class NiveauGraphImpl extends ResidualNetImpl implements NiveauGraph {
         return null;
     }
 
+    /**
+     * Creates an index for all nodes in the NiveauGraph.
+     *
+     * @param source The starting node.
+     * @param sink The end node.
+     */
+    private void createIndex(int source, int sink) {
+        int counter = 0;
+        int length = adjMatrix.length;
+        index = new int[length];
+        LinkedList<Integer> checkedNodes = new LinkedList<>();
+        LinkedList<Integer> lastNodes = new LinkedList<>();
+        LinkedList<Integer> currentNodes = new LinkedList<>();
+        // add the source
+        currentNodes.add(source);
+        while (!checkedNodes.contains(sink)) {
+            counter++;
+            lastNodes.addAll(currentNodes);
+            currentNodes.clear();
+            for (Integer i : lastNodes) {
+                if (!checkedNodes.contains(i)) {
+                    index[i] = counter;
+                    for (int j = 0; j < length; j++) {
+                        if (adjMatrix[i][j] != EMPTY_CAPACITY
+                                && !checkedNodes.contains(j)
+                                && !lastNodes.contains(j)) {
+                            currentNodes.add(j);
+                        }
+                    }
+                }
+            }
+            checkedNodes.addAll(lastNodes);
+            lastNodes.clear();
+        }
+    }
+
+    /**
+     * Checks weather the sink is reachable from a certain node.
+     *
+     * @param position The start position.
+     * @return Weather the sink is reachable.
+     */
     private boolean isSinkReachableFromEdge(int position) {
         List<Integer> checkedNodes = new ArrayList<>();
         List<Integer> currentlyChecking = new ArrayList<>();

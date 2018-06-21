@@ -69,6 +69,12 @@ public class MaxFlowImpl implements MaxFlow {
         }
     }
 
+    /**
+     * Calculates a blocking flow in a NiveauGraph.
+     *
+     * @param niveauGraph The NiveauGraph a blocking flow will be calculated for
+     * @return The blocking flow.
+     */
     private int[][] computeBlockingFlow(NiveauGraph niveauGraph) {
         int size = niveauGraph.getNumberOfNodes();
         int[][] flow = new int[size][size];
