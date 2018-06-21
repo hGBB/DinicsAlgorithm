@@ -36,7 +36,6 @@ public class MaxFlowImpl implements MaxFlow {
         } while (reachable);
     }
 
-
     /**
      * {@inheritDoc}
      */

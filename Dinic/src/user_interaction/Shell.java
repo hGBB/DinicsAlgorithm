@@ -58,7 +58,7 @@ public final class Shell {
             String input = stdin.readLine();
             String[] tokens = splitCommand(input);
             if (checkInput(tokens)) {
-                switch (input.toLowerCase().charAt(0)) {
+                switch (tokens[0].charAt(0)) {
                     case 'n':
                         LinkedList<int[]> inputFile = convertToArray(
                                 createInputList(tokens[1]));
@@ -128,6 +128,46 @@ public final class Shell {
                         }
                         break;
                     case 'h':
+                        System.out.print("Hello and welcome to the Algorithm "
+                                + " of Dinic \n"
+                                + "<file> is the path to a file which you  "
+                                + "can use to create a net or a flow \n"
+                                + "The file has to follow a certain structure."
+                                + "\n The first line declares the number of "
+                                + "nodes the net is built upon.\n"
+                                + "This can be any number > 1"
+                                + "All the following lines are the edges in the"
+                                + "net.\n"
+                                + "They consist of three numbers. \n"
+                                + "The first is the source of the edge.\n"
+                                + "The second is the target of the edge.\n"
+                                + "The third is the capacity or flow which "
+                                + "exists between the source and target node\n"
+                                + "The source and target can't be outside the "
+                                + "in line 1 given number of nodes. \n"
+                                + "The flow and capacity can't be negative "
+                                + "numbers.\n"
+                                + "This is the List of all commands and how"
+                                + " to use them.\n"
+                                + "NEW <file>\n"
+                                + "Creates a new net.\n"
+                                + "FLOW <file>\n"
+                                + "Creates a flow in the net.\n"
+                                + "MAXFLOW\n"
+                                + "Calculates the maximum flow of the net\n"
+                                + "PRINTFLOW\n"
+                                + "Calculates the maximum flow of the net "
+                                + "and prints the Flow aswell."
+                                + "DEBUG\n"
+                                + "Prints the net\n"
+                                + "CURRENTFLOW\n"
+                                + "Prints the Flow of the net"
+                                + "RESIDUAL\n"
+                                + "Prints the ResidualNet of the current net.\n"
+                                + "STRICT\n"
+                                + "Prints the NiveauGraph of the current net.\n"
+                                + "QUIT\n"
+                                + "Terminates the program \n");
                         break;
                     case 'q':
                         quit = true;
@@ -289,6 +329,7 @@ public final class Shell {
             tokens[1] = secondParameter.toString();
             tokens = new String[]{tokens[0], tokens[1]};
         }
+        tokens[0] = tokens[0].toLowerCase();
         return tokens;
     }
 
