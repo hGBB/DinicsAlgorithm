@@ -17,6 +17,9 @@ dinic> n datastr.net
 Error! The specified file does not exist!
 dinic> n dwasdkeg1346735@@@
 Error! The specified file does not exist!
+dinic> net datastr1.flow
+dinic> flow datastr1.net
+Error! The given flow is not valid!
 dinic> n datastr1.net
 dinic> d
 0 19 0 87 28 93 0
