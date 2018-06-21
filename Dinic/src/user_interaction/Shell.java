@@ -279,14 +279,14 @@ public final class Shell {
         String[] tokens = input.trim().split("\\s+");
         if (tokens.length > 1) {
 
-            StringBuilder secondParamater = new StringBuilder();
+            StringBuilder secondParameter = new StringBuilder();
             for (int i = 1; i < tokens.length; i++) {
-                secondParamater.append(tokens[i]);
+                secondParameter.append(tokens[i]);
                 if (i != tokens.length - 1) {
-                    secondParamater.append(" ");
+                    secondParameter.append(" ");
                 }
             }
-            tokens[1] = secondParamater.toString();
+            tokens[1] = secondParameter.toString();
             tokens = new String[]{tokens[0], tokens[1]};
         }
         return tokens;
